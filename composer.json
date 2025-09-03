@@ -8,7 +8,8 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/tinker": "^2.10.1",
+        "wpwwhimself/shipyard": "dev-main"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -18,6 +19,12 @@
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
         "phpunit/phpunit": "^11.5.3"
+    },
+    "repositories": {
+        "shipyard": {
+            "type": "path",
+            "url": "../shipyard"
+        }
     },
     "autoload": {
         "psr-4": {
@@ -37,7 +44,8 @@
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan shipyard:install"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
