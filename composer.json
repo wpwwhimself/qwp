@@ -9,7 +9,7 @@
         "php": "^8.2",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "wpwwhimself/shipyard": "dev-main"
+        "wpwwhimself/shipyard": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -22,8 +22,8 @@
     },
     "repositories": {
         "shipyard": {
-            "type": "path",
-            "url": "../shipyard"
+            "type": "vcs",
+            "url": "https://github.com/wpwwhimself/shipyard.git"
         }
     },
     "autoload": {
@@ -44,8 +44,7 @@
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php artisan shipyard:install"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""

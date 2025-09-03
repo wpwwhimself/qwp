@@ -26,8 +26,9 @@ class Rate extends Model
         "name",
         "description",
         "mode",
+        "default_value",
     ];
-    
+
     #region fields
     use HasStandardFields;
 
@@ -48,6 +49,12 @@ class Rate extends Model
             ],
             "label" => "Tryb",
             "icon" => "clock",
+        ],
+        "default_value" => [
+            "type" => "number",
+            "label" => "Wartość",
+            "icon" => "cash",
+            "required" => true,
         ],
     ];
 

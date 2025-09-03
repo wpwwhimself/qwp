@@ -16,42 +16,58 @@ class Project extends Model
     public const META = [
         "label" => "Projekty",
         "icon" => "castle",
-        "description" => "",
-        "role" => "",
+        "description" => "...",
+        "role" => "technical|client",
     ];
 
     use SoftDeletes, Userstamps;
 
     protected $fillable = [
         "name",
-        "visible",
+        "client_id",
+        "description",
+        "logo_url",
+        "color",
+        "page_url",
+        "repo_url",
     ];
-    
+
     #region fields
     use HasStandardFields;
 
     public const FIELDS = [
-        // "<column_name>" => [
-        //     "type" => "<input_type>",
-        //     "column-types" => [ // for JSON
-        //         "<label>" => "<input_type>",
-        //     ],
-        //     "label" => "",
-        //     "hint" => "",
-        //     "icon" => "",
-        //     // "required" => true,
-        //     // "autofill-from" => ["<route>", "<model_name>"],
-        //     // "character-limit" => 999, // for text fields
-        //     // "hide-for-entmgr" => true,
-        //     // "role" => "",
-        // ],
+        "description" => [
+            "type" => "TEXT",
+            "label" => "Opis",
+            "icon" => "text",
+        ],
+        "logo_url" => [
+            "type" => "url",
+            "label" => "Logo",
+            "icon" => "image",
+        ],
+        "color" => [
+            "type" => "color",
+            "label" => "Kolor",
+            "icon" => "palette",
+        ],
+        "page_url" => [
+            "type" => "url",
+            "label" => "Link do aplikacji",
+            "icon" => "link",
+        ],
+        "repo_url" => [
+            "type" => "url",
+            "label" => "Link do repozytorium",
+            "icon" => "file-link",
+        ],
     ];
 
     public const CONNECTIONS = [
-        // "<name>" => [
-        //     "model" => ,
-        //     "mode" => "<one|many>",
-        // ],
+        "client" => [
+            "model" => Client::class,
+            "mode" => "one",
+        ],
     ];
 
     public const ACTIONS = [
