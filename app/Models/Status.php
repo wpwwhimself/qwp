@@ -18,6 +18,7 @@ class Status extends Model
         "icon" => "timeline",
         "description" => "Statusy zadań projektów.",
         "role" => "technical",
+        "ordering" => 2,
     ];
 
     use SoftDeletes, Userstamps;
@@ -28,7 +29,7 @@ class Status extends Model
         "color",
         "index",
     ];
-    
+
     #region fields
     use HasStandardFields;
 

@@ -18,6 +18,7 @@ class Project extends Model
         "icon" => "castle",
         "description" => "...",
         "role" => "technical|client",
+        "ordering" => 12,
     ];
 
     use SoftDeletes, Userstamps;
@@ -135,6 +136,15 @@ class Project extends Model
     #endregion
 
     #region relations
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function scopes()
+    {
+        return $this->hasMany(Scope::class);
+    }
     #endregion
 
     #region helpers

@@ -14,42 +14,41 @@ class Scope extends Model
     public const META = [
         "label" => "Zakresy",
         "icon" => "inbox-multiple",
-        "description" => "",
+        "description" => "Opisują moduły aplikacji, w których przeprowadzane są prace.",
         "role" => "",
+        "ordering" => 13,
     ];
 
     use SoftDeletes, Userstamps;
 
     protected $fillable = [
         "name",
-        "visible",
+        "project_id",
+        "description",
+        "icon",
     ];
-    
+
     #region fields
     use HasStandardFields;
 
     public const FIELDS = [
-        // "<column_name>" => [
-        //     "type" => "<input_type>",
-        //     "column-types" => [ // for JSON
-        //         "<label>" => "<input_type>",
-        //     ],
-        //     "label" => "",
-        //     "hint" => "",
-        //     "icon" => "",
-        //     // "required" => true,
-        //     // "autofill-from" => ["<route>", "<model_name>"],
-        //     // "character-limit" => 999, // for text fields
-        //     // "hide-for-entmgr" => true,
-        //     // "role" => "",
-        // ],
+        "description" => [
+            "type" => "TEXT",
+            "label" => "Opis",
+            "icon" => "text",
+        ],
+        "icon" => [
+            "type" => "text",
+            "label" => "Ikona",
+            "icon" => "image",
+        ],
     ];
 
     public const CONNECTIONS = [
-        // "<name>" => [
-        //     "model" => ,
-        //     "mode" => "<one|many>",
-        // ],
+        "project" => [
+            "model" => Project::class,
+            "mode" => "one",
+        ],
     ];
 
     public const ACTIONS = [
@@ -63,29 +62,6 @@ class Scope extends Model
         // ],
     ];
     #endregion
-
-    // use CanBeSorted;
-    public const SORTS = [
-        // "<name>" => [
-        //     "label" => "",
-        //     "compare-using" => "function|field",
-        //     "discr" => "<function_name|field_name>",
-        // ],
-    ];
-
-    public const FILTERS = [
-        // "<name>" => [
-        //     "label" => "",
-        //     "icon" => "",
-        //     "compare-using" => "function|field",
-        //     "discr" => "<function_name|field_name>",
-        //     "mode" => "<one|many>",
-        //     "operator" => "",
-        //     "options" => [
-        //         "<label>" => <value>,
-        //     ],
-        // ],
-    ];
 
     #region scopes
     use HasStandardScopes;
@@ -117,6 +93,15 @@ class Scope extends Model
     #endregion
 
     #region relations
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
     #endregion
 
     #region helpers

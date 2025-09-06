@@ -16,8 +16,9 @@ class Run extends Model
     public const META = [
         "label" => "Sesje",
         "icon" => "run",
-        "description" => "",
-        "role" => "",
+        "description" => "Pojedyncze posiedzenia przy pracy.",
+        "role" => "technical",
+        "ordering" => 15,
     ];
 
     use SoftDeletes, Userstamps;
@@ -26,7 +27,7 @@ class Run extends Model
         "name",
         "visible",
     ];
-    
+
     #region fields
     use HasStandardFields;
 

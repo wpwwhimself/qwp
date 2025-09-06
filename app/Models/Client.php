@@ -19,6 +19,7 @@ class Client extends Model
         "icon" => "account-tie",
         "description" => "Lista klientów, z którymi współpracuję.",
         "role" => "technical",
+        "ordering" => 11,
     ];
 
     use SoftDeletes, Userstamps;
@@ -29,7 +30,7 @@ class Client extends Model
         "full_name",
         "address",
     ];
-    
+
     #region fields
     use HasStandardFields;
 
@@ -131,6 +132,11 @@ class Client extends Model
     public function rates()
     {
         return $this->belongsTo(Rate::class);
+    }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
     }
     #endregion
 

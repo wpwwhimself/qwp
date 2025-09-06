@@ -16,42 +16,53 @@ class Task extends Model
     public const META = [
         "label" => "Zadania",
         "icon" => "check-circle",
-        "description" => "",
+        "description" => "Zadania do wykonania w określonym module.",
         "role" => "",
+        "ordering" => 14,
     ];
 
     use SoftDeletes, Userstamps;
 
     protected $fillable = [
         "name",
-        "visible",
+        "scope_id",
+        "description",
+        "status_id",
+        "rate_id",
+        "rate_value",
     ];
-    
+
     #region fields
     use HasStandardFields;
 
     public const FIELDS = [
-        // "<column_name>" => [
-        //     "type" => "<input_type>",
-        //     "column-types" => [ // for JSON
-        //         "<label>" => "<input_type>",
-        //     ],
-        //     "label" => "",
-        //     "hint" => "",
-        //     "icon" => "",
-        //     // "required" => true,
-        //     // "autofill-from" => ["<route>", "<model_name>"],
-        //     // "character-limit" => 999, // for text fields
-        //     // "hide-for-entmgr" => true,
-        //     // "role" => "",
-        // ],
+        "description" => [
+            "type" => "TEXT",
+            "label" => "Opis",
+            "icon" => "text",
+        ],
+        "rate_value" => [
+            "type" => "number",
+            "label" => "Wartość stawki",
+            "icon" => "cash",
+            "step" => 0.01,
+            "min" => 0,
+        ],
     ];
 
     public const CONNECTIONS = [
-        // "<name>" => [
-        //     "model" => ,
-        //     "mode" => "<one|many>",
-        // ],
+        "scope" => [
+            "model" => Scope::class,
+            "mode" => "one",
+        ],
+        "status" => [
+            "model" => Status::class,
+            "mode" => "one",
+        ],
+        "rate" => [
+            "model" => Rate::class,
+            "mode" => "one",
+        ],
     ];
 
     public const ACTIONS = [
@@ -119,6 +130,25 @@ class Task extends Model
     #endregion
 
     #region relations
+    public function scope()
+    {
+        return $this->belongsTo(Scope::class);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+
+    public function rate()
+    {
+        return $this->belongsTo(Rate::class);
+    }
+
+    public function runs()
+    {
+        return $this->hasMany(Run::class);
+    }
     #endregion
 
     #region helpers

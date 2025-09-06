@@ -18,6 +18,7 @@ class Rate extends Model
         "icon" => "cash-multiple",
         "description" => "Rodzaje stawek obowiązujących za wykonywanie zleceń.",
         "role" => "technical",
+        "ordering" => 1,
     ];
 
     use SoftDeletes, Userstamps;
