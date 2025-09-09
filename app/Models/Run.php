@@ -25,34 +25,45 @@ class Run extends Model
 
     protected $fillable = [
         "name",
-        "visible",
+        "task_id",
+        "description",
+        "started_at",
+        "finished_at",
+        "hours_spent",
     ];
 
     #region fields
     use HasStandardFields;
 
     public const FIELDS = [
-        // "<column_name>" => [
-        //     "type" => "<input_type>",
-        //     "column-types" => [ // for JSON
-        //         "<label>" => "<input_type>",
-        //     ],
-        //     "label" => "",
-        //     "hint" => "",
-        //     "icon" => "",
-        //     // "required" => true,
-        //     // "autofill-from" => ["<route>", "<model_name>"],
-        //     // "character-limit" => 999, // for text fields
-        //     // "hide-for-entmgr" => true,
-        //     // "role" => "",
-        // ],
+        "description" => [
+            "type" => "TEXT",
+            "label" => "Opis",
+            "icon" => "text",
+        ],
+        "started_at" => [
+            "type" => "datetime-local",
+            "label" => "Czas rozpoczęcia",
+            "icon" => "clock",
+        ],
+        "finished_at" => [
+            "type" => "datetime-local",
+            "label" => "Czas zakończenia",
+            "icon" => "clock",
+        ],
+        "hours_spent" => [
+            "type" => "number",
+            "label" => "Poświęcono godzin",
+            "icon" => "timer",
+            "required" => true,
+        ],
     ];
 
     public const CONNECTIONS = [
-        // "<name>" => [
-        //     "model" => ,
-        //     "mode" => "<one|many>",
-        // ],
+        "task" => [
+            "model" => Task::class,
+            "mode" => "one",
+        ],
     ];
 
     public const ACTIONS = [
