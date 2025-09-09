@@ -35,7 +35,7 @@ class Status extends Model
 
     public const FIELDS = [
         "icon" => [
-            "type" => "text",
+            "type" => "icon",
             "label" => "Ikona",
             "icon" => "image",
             "required" => true,

@@ -38,7 +38,7 @@ class Scope extends Model
             "icon" => "text",
         ],
         "icon" => [
-            "type" => "text",
+            "type" => "icon",
             "label" => "Ikona",
             "icon" => "image",
         ],
