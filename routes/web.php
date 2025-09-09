@@ -2,6 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-require __DIR__.'/Shipyard/shipyard.php';
+if (file_exists(__DIR__.'/Shipyard/shipyard.php')) require __DIR__.'/Shipyard/shipyard.php';
 
 Route::redirect("/", "profile");
