@@ -145,6 +145,12 @@ class Project extends Model
     {
         return $this->hasMany(Scope::class);
     }
+
+    public function activeTasks()
+    {
+        return $this->hasManyThrough(Task::class, Scope::class)
+            ->whereHas("status", fn ($q) => $q->where("statuses.name", "<>", "wdrożone"));
+    }
     #endregion
 
     #region helpers

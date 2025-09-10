@@ -1,0 +1,7 @@
+.project-logo {
+    background-color: var(--accent-color);
+    
+    & > .icon {
+        font-size: 10em;
+    }
+}
