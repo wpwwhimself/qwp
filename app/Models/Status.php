@@ -133,5 +133,9 @@ class Status extends Model
     #endregion
 
     #region helpers
+    public static function maxIndex(): int
+    {
+        return self::max("index");
+    }
     #endregion
 }

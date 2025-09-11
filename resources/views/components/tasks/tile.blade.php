@@ -16,9 +16,9 @@
 
     <div role="bottom-part">
         <x-shipyard.ui.button
-            icon="finance"
-            label="Statystyki"
-            :action="route('tasks.stats', ['task' => $task])"
+            icon="arrow-right"
+            pop="Przejdź"
+            :action="route('tasks.show', ['task' => $task])"
         />
     </div>
 </div>

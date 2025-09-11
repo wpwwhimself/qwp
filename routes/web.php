@@ -9,14 +9,31 @@ Route::redirect("/", "profile");
 
 Route::middleware("auth")->group(function () {
     Route::controller(TaskMgmtController::class)->group(function () {
-        Route::get("clients", "clients")->name("clients.list");
-        Route::get("clients/{client}/stats", "clientStats")->name("clients.stats");
+        Route::prefix("clients")->group(function () {
+            Route::get("", "clients")->name("clients.list");
+            Route::get("{client}/stats", "clientStats")->name("clients.stats");
+        });
 
-        Route::get("projects", "projects")->name("projects.list");
-        Route::get("projects/{project}", "project")->name("projects.show");
+        Route::prefix("projects")->group(function () {
+            Route::get("", "projects")->name("projects.list");
+            Route::get("{project}", "project")->name("projects.show");
+        });
 
-        Route::get("tasks", "tasks")->name("tasks.list");
-        Route::get("tasks/{task}", "task")->name("tasks.show");
-        Route::get("tasks/{task}/stats", "taskStats")->name("tasks.stats");
+        Route::prefix("tasks")->group(function () {
+            Route::get("", "tasks")->name("tasks.list");
+            Route::get("{task}", "task")->name("tasks.show");
+            Route::get("{task}/stats", "taskStats")->name("tasks.stats");
+            Route::get("{task}/restatus/{new_status_index}", "taskRestatus")->name("tasks.restatus");
+        });
+
+        Route::prefix("runs")->group(function () {
+            Route::get("", "runs")->name("runs.list");
+            Route::get("{run}", "run")->name("runs.show");
+
+            Route::prefix("manage")->group(function () {
+                Route::get("start/{task}", "runStart")->name("runs.start");
+                Route::get("finish/{run}", "runFinish")->name("runs.finish");
+            });
+        });
     });
 });

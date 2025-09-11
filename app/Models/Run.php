@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Shipyard\HasStandardAttributes;
 use App\Traits\Shipyard\HasStandardFields;
 use App\Traits\Shipyard\HasStandardScopes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Mattiverse\Userstamps\Traits\Userstamps;
@@ -24,7 +25,6 @@ class Run extends Model
     use SoftDeletes, Userstamps;
 
     protected $fillable = [
-        "name",
         "task_id",
         "description",
         "started_at",
@@ -109,7 +109,8 @@ class Run extends Model
     protected function casts(): array
     {
         return [
-            //
+            "started_at" => "datetime",
+            "finished_at" => "datetime",
         ];
     }
 
@@ -128,9 +129,20 @@ class Run extends Model
     //         ],
     //     );
     // }
+
+    public function isFinished(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->finished_at !== null,
+        );
+    }
     #endregion
 
     #region relations
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
     #endregion
 
     #region helpers
