@@ -14,5 +14,9 @@ Route::middleware("auth")->group(function () {
 
         Route::get("projects", "projects")->name("projects.list");
         Route::get("projects/{project}", "project")->name("projects.show");
+
+        Route::get("tasks", "tasks")->name("tasks.list");
+        Route::get("tasks/{task}", "task")->name("tasks.show");
+        Route::get("tasks/{task}/stats", "taskStats")->name("tasks.stats");
     });
 });

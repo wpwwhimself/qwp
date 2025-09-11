@@ -21,6 +21,10 @@
 
         <div class="flex down no-gap">
             <h3>{{ $project->name }}</h3>
+            
+            @if ($project->repo_url)
+            <span>Repozytorium: <a href="{{ $project->repo_url }}" target="_blank">{{ $project->repo_url }}</a></span>
+            @endif
         </div>
     </div>
 </x-shipyard.app.card>
@@ -29,8 +33,8 @@
     title="Zadania do wykonania"
     :icon="model_icon('tasks')"
 >
-    @forelse ($project->activeTasks ?? [] as $item)
-        
+    @forelse ($project->activeTasks ?? [] as $task)
+    <x-tasks.tile :task="$task" />
     @empty
     <p class="ghost"><x-shipyard.app.icon name="check" /> Wszystkie zadania wykonane!</p>
     @endforelse
