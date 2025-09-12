@@ -78,6 +78,8 @@ class Run extends Model
             "label" => "Poświęcono godzin",
             "icon" => "timer",
             "required" => true,
+            "min" => 0,
+            "step" => 0.01,
         ],
     ];
 
