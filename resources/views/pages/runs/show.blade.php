@@ -56,13 +56,13 @@
     @endunless
 </x-shipyard.app.card>
 
-@unless ($run->is_finished && $run->task->description)
+@if (!$run->is_finished && $run->task->description)
 <x-shipyard.app.card
     title="O zadaniu"
     :icon="model_icon('tasks')"
 >
     {!! \Illuminate\Mail\Markdown::parse($run->task->description) !!}
 </x-shipyard.app.card>
-@endunless
+@endif
 
 @endsection
