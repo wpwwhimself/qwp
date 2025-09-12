@@ -32,7 +32,7 @@ class Task extends Model
         "rate_id",
         "rate_value",
     ];
-    
+
     public function __toString(): string
     {
         return implode(" | ", [
@@ -123,6 +123,11 @@ class Task extends Model
 
     #region scopes
     use HasStandardScopes;
+
+    public function scopeActive($query): void
+    {
+        $query->where("status_id", "!=", Status::final()->id);
+    }
     #endregion
 
     #region attributes

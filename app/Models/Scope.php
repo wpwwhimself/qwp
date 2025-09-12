@@ -122,6 +122,11 @@ class Scope extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function activeTasks()
+    {
+        return $this->tasks()->active();
+    }
     #endregion
 
     #region helpers

@@ -150,5 +150,10 @@ class Status extends Model
     {
         return self::max("index");
     }
+
+    public static function final(): self
+    {
+        return self::where("index", self::maxIndex())->first();
+    }
     #endregion
 }
