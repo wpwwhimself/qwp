@@ -11,6 +11,7 @@ Route::middleware("auth")->group(function () {
     Route::controller(TaskMgmtController::class)->group(function () {
         Route::prefix("clients")->group(function () {
             Route::get("", "clients")->name("clients.list");
+            Route::get("{client}", "client")->name("clients.show");
             Route::get("{client}/stats", "clientStats")->name("clients.stats");
         });
 

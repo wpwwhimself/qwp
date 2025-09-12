@@ -2,11 +2,37 @@
 @section("title", $project->name)
 @section("subtitle", $project->client->name)
 
+@section("sidebar")
+
+<div class="card stick-top">
+    @foreach ($sections as $section)
+    <x-shipyard.ui.button
+        :icon="$section['icon'] ?? null"
+        :pop="$section['label']"
+        pop-direction="right"
+        :action="'#'.$section['id'] ?? null"
+        class="tertiary"
+    />
+    @endforeach
+
+    <x-shipyard.app.sidebar-separator />
+
+    <x-shipyard.ui.button
+        :icon="model_icon('clients')"
+        pop="Klient"
+        pop-direction="right"
+        :action="route('clients.show', ['client' => $project->client])"
+    />
+</div>
+
+@endsection
+
 @section("content")
 
 <x-shipyard.app.card
-    title="O projekcie"
-    :icon="model_icon('projects')"
+    :title="$sections[0]['label']"
+    :icon="$sections[0]['icon']"
+    :id="$sections[0]['id']"
 >
     <x-slot:actions>
         <x-shipyard.ui.button
@@ -30,8 +56,9 @@
 </x-shipyard.app.card>
 
 <x-shipyard.app.card
-    title="Zadania do wykonania"
-    :icon="model_icon('tasks')"
+    :title="$sections[1]['label']"
+    :icon="$sections[1]['icon']"
+    :id="$sections[1]['id']"
 >
     @forelse ($project->activeTasks ?? [] as $task)
     <x-tasks.tile :task="$task" />
@@ -41,8 +68,9 @@
 </x-shipyard.app.card>
 
 <x-shipyard.app.card
-    title="Zakresy"
-    :icon="model_icon('scopes')"
+    :title="$sections[2]['label']"
+    :icon="$sections[2]['icon']"
+    :id="$sections[2]['id']"
 >
     <x-slot:actions>
         <x-shipyard.ui.button

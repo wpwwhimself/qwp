@@ -33,8 +33,27 @@ class TaskMgmtController extends Controller
 
     public function project(Project $project)
     {
+        $sections = [
+            [
+                "label" => "O projekcie",
+                "id" => "projects",
+                "icon" => model_icon("projects"),
+            ],
+            [
+                "label" => "Zadania do wykonania",
+                "id" => "active_tasks",
+                "icon" => model_icon("tasks"),
+            ],
+            [
+                "label" => "Zakresy",
+                "id" => "scopes",
+                "icon" => model_icon("scopes"),
+            ],
+        ];
+
         return view("pages.projects.show", compact(
             "project",
+            "sections",
         ));
     }
     #endregion
@@ -47,8 +66,22 @@ class TaskMgmtController extends Controller
 
     public function scope(Scope $scope)
     {
+        $sections = [
+            [
+                "label" => "W skrócie",
+                "id" => "scope",
+                "icon" => model_icon("scopes"),
+            ],
+            [
+                "label" => "Zadania",
+                "id" => "tasks",
+                "icon" => model_icon("tasks"),
+            ],
+        ];
+
         return view("pages.scopes.show", compact(
             "scope",
+            "sections",
         ));
     }
 
@@ -71,8 +104,22 @@ class TaskMgmtController extends Controller
 
     public function task(Task $task)
     {
+        $sections = [
+            [
+                "label" => "W skrócie",
+                "id" => "task",
+                "icon" => model_icon("tasks"),
+            ],
+            [
+                "label" => "Sesje",
+                "id" => "runs",
+                "icon" => model_icon("runs"),
+            ],
+        ];
+
         return view("pages.tasks.show", compact(
             "task",
+            "sections",
         ));
     }
 
