@@ -124,9 +124,14 @@ class Task extends Model
     #region scopes
     use HasStandardScopes;
 
+    public function scopeOrdered($query): void
+    {
+        $query->orderBy("created_at");
+    }
+
     public function scopeActive($query): void
     {
-        $query->where("status_id", "!=", Status::final()->id);
+        $query->ordered()->where("status_id", "!=", Status::final()->id);
     }
     #endregion
 

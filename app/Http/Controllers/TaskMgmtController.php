@@ -99,7 +99,13 @@ class TaskMgmtController extends Controller
     #region tasks
     public function tasks()
     {
-        abort(501);
+        $tasks = Task::ordered();
+        if (request()->get("active")) $tasks = $tasks->active();
+        $tasks = $tasks->paginate(25);
+
+        return view("pages.tasks.list", compact(
+            "tasks",
+        ));
     }
 
     public function task(Task $task)

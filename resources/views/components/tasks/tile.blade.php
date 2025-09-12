@@ -1,5 +1,6 @@
 @props([
     "task",
+    "fullScopeName" => false,
 ])
 
 <div role="model-card">
@@ -7,7 +8,7 @@
         <x-statuses.tile :status="$task->status" />
         <div>
             <h3 class="tile-title">{{ $task->name }}</h3>
-            <span class="ghost">{{ $task->scope->name }}</span>
+            <span class="ghost">{{ $fullScopeName ? $task->scope : $task->scope->name }}</span>
         </div>
     </div>
 
