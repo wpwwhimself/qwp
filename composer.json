@@ -22,8 +22,8 @@
     },
     "repositories": {
         "shipyard": {
-            "type": "path",
-            "url": "../shipyard"
+            "type": "vcs",
+            "url": "https://github.com/wpwwhimself/shipyard.git"
         }
     },
     "autoload": {
