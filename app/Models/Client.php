@@ -6,6 +6,7 @@ use App\Models\Shipyard\User;
 use App\Traits\Shipyard\HasStandardAttributes;
 use App\Traits\Shipyard\HasStandardFields;
 use App\Traits\Shipyard\HasStandardScopes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Mattiverse\Userstamps\Traits\Userstamps;
@@ -30,6 +31,18 @@ class Client extends Model
         "full_name",
         "address",
     ];
+
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
+    public function optionLabel(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->name,
+        );
+    }
 
     #region fields
     use HasStandardFields;

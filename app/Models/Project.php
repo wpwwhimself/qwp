@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Shipyard\HasStandardAttributes;
 use App\Traits\Shipyard\HasStandardFields;
 use App\Traits\Shipyard\HasStandardScopes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Mattiverse\Userstamps\Traits\Userstamps;
@@ -32,6 +33,21 @@ class Project extends Model
         "page_url",
         "repo_url",
     ];
+
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
+    public function optionLabel(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => implode(" | ", [
+                $this->client->name,
+                $this->name,
+            ]),
+        );
+    }
 
     #region fields
     use HasStandardFields;

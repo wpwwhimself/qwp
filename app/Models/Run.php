@@ -32,6 +32,28 @@ class Run extends Model
         "hours_spent",
     ];
 
+    public function __toString(): string
+    {
+        return ($this->is_finished ? "ukończona" : "w toku")
+            . " ("
+            . $this->started_at->format("Y-m-d H:i")
+            . ", "
+            . $this->hours_spent
+            . " h)";
+    }
+
+    public function optionLabel(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => ($this->is_finished ? "ukończona" : "w toku")
+                . " ("
+                . $this->started_at->format("Y-m-d H:i")
+                . ", "
+                . $this->hours_spent
+                . " h)",
+        );
+    }
+
     #region fields
     use HasStandardFields;
 
