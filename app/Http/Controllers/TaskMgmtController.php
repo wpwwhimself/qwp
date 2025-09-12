@@ -45,6 +45,13 @@ class TaskMgmtController extends Controller
         abort(501);
     }
 
+    public function scope(Scope $scope)
+    {
+        return view("pages.scopes.show", compact(
+            "scope",
+        ));
+    }
+
     public function scopeCreate(Request $rq)
     {
         Scope::create([

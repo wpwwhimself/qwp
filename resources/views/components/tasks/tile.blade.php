@@ -12,6 +12,14 @@
     </div>
 
     <div role="middle-part">
+        <span>
+            <span @popper(Utworzono)><x-shipyard.app.icon name="clock" /></span>
+            <span {{ Popper::pop($task->created_at) }}>{{ $task->created_at->diffForHumans() }}</span>
+        </span>
+        <span>
+            <span @popper(Łączny czas poświęcony)><x-shipyard.app.icon name="timer" /></span>
+            <span>{{ $task->total_hours_spent }} h</span>
+        </span>
     </div>
 
     <div role="bottom-part">

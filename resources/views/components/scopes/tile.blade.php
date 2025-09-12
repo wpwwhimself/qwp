@@ -29,9 +29,9 @@
         />
 
         <x-shipyard.ui.button
-            icon="pencil"
-            pop="Edytuj"
-            :action="route('admin.model.edit', ['model' => 'scope', 'id' => $scope->id])"
+            icon="arrow-right"
+            pop="Przejdź"
+            :action="route('scopes.show', ['scope' => $scope])"
         />
     </div>
 </div>

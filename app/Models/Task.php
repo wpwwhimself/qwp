@@ -138,6 +138,10 @@ class Task extends Model
         ];
     }
 
+    protected $appends = [
+        "total_hours_spent",
+    ];
+
     use HasStandardAttributes;
 
     // public function badges(): Attribute
@@ -153,6 +157,13 @@ class Task extends Model
     //         ],
     //     );
     // }
+
+    public function totalHoursSpent(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->runs()->sum("hours_spent"),
+        );
+    }
     #endregion
 
     #region relations
