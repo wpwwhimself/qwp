@@ -4,13 +4,20 @@
 
 <div role="model-card">
     <div role="top-part">
-        <h3 class="tile-title">
+        <div>
+            <h3 class="tile-title">
+                @if ($run->is_finished)
+                {{ $run->hours_spent }} h
+                @else
+                w toku
+                @endif
+            </h3>
             @if ($run->is_finished)
-            {{ $run->hours_spent }} h
-            @else
-            w toku
+            <span class="ghost">
+                {{ $run->finished_at->diff($run->started_at) }}
+            </span>
             @endif
-        </h3>
+        </div>
     </div>
 
     <div role="middle-part">

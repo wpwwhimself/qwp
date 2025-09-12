@@ -30,6 +30,8 @@ class Client extends Model
         "user_id",
         "full_name",
         "address",
+        "default_rate_id",
+        "default_rate_value",
     ];
 
     public function __toString(): string
@@ -60,6 +62,12 @@ class Client extends Model
             "icon" => "map-marker",
             "required" => true,
         ],
+        "default_rate_value" => [
+            "type" => "number",
+            "label" => "Wartość stawki domyślnej",
+            "icon" => "cash",
+            "required" => true,
+        ],
     ];
 
     public const CONNECTIONS = [
@@ -67,10 +75,12 @@ class Client extends Model
             "model" => User::class,
             "mode" => "one",
         ],
-        // "rates" => [
-        //     "model" => Rate::class,
-        //     "mode" => "many",
-        // ],
+        "rate" => [
+            "model" => Rate::class,
+            "mode" => "one",
+            "field_name" => "default_rate_id",
+            "field_label" => "Stawka domyślna",
+        ],
     ];
 
     public const ACTIONS = [
@@ -142,9 +152,9 @@ class Client extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function rates()
+    public function rate()
     {
-        return $this->belongsTo(Rate::class);
+        return $this->belongsTo(Rate::class, "default_rate_id");
     }
 
     public function projects()

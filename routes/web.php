@@ -19,11 +19,18 @@ Route::middleware("auth")->group(function () {
             Route::get("{project}", "project")->name("projects.show");
         });
 
+        Route::prefix("scopes")->group(function () {
+            Route::get("", "scopes")->name("scopes.list");
+            Route::get("{scope}", "scope")->name("scopes.show");
+            Route::post("create", "scopeCreate")->name("scopes.create");
+        });
+
         Route::prefix("tasks")->group(function () {
             Route::get("", "tasks")->name("tasks.list");
             Route::get("{task}", "task")->name("tasks.show");
             Route::get("{task}/stats", "taskStats")->name("tasks.stats");
             Route::get("{task}/restatus/{new_status_index}", "taskRestatus")->name("tasks.restatus");
+            Route::post("create", "taskCreate")->name("tasks.create");
         });
 
         Route::prefix("runs")->group(function () {

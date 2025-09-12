@@ -21,7 +21,7 @@
 
         <div class="flex down no-gap">
             <h3>{{ $project->name }}</h3>
-            
+
             @if ($project->repo_url)
             <span>Repozytorium: <a href="{{ $project->repo_url }}" target="_blank">{{ $project->repo_url }}</a></span>
             @endif
@@ -37,6 +37,27 @@
     <x-tasks.tile :task="$task" />
     @empty
     <p class="ghost"><x-shipyard.app.icon name="check" /> Wszystkie zadania wykonane!</p>
+    @endforelse
+</x-shipyard.app.card>
+
+<x-shipyard.app.card
+    title="Zakresy"
+    :icon="model_icon('scopes')"
+>
+    <x-slot:actions>
+        <x-shipyard.ui.button
+            icon="plus"
+            label="Dodaj"
+            action="none"
+            onclick="openModal('create-scope', {{ json_encode(['project_id' => $project->id]) }});"
+            class="tertiary"
+        />
+    </x-slot:actions>
+
+    @forelse ($project->scopes as $scope)
+    <x-scopes.tile :scope="$scope" />
+    @empty
+    <span class="ghost">Brak zdefiniowanych zakresów</span>
     @endforelse
 </x-shipyard.app.card>
 

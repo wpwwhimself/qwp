@@ -38,6 +38,31 @@
     @if ($run->description)
     {!! \Illuminate\Mail\Markdown::parse($run->description) !!}
     @endif
+
+    @unless ($run->is_finished)
+    <p>Sesja obecnie trwa. Czas poświęcony póki co: <strong id="timer" class="accent primary">???</strong>.</p>
+
+    <script>
+    const timer = document.getElementById("timer");
+
+    setInterval(() => {
+        const diff = new Date().getTime() - new Date("{{ $run->started_at }}").getTime();
+        const hours = Math.floor(diff / 1000 / 60 / 60);
+        const minutes = (Math.floor(diff / 1000 / 60) % 60).toString().padStart(2, "0");
+        const seconds = (Math.floor(diff / 1000) % 60).toString().padStart(2, "0");
+        timer.innerHTML = `${hours}:${minutes}:${seconds}`;
+    });
+    </script>
+    @endunless
 </x-shipyard.app.card>
+
+@unless ($run->is_finished && $run->task->description)
+<x-shipyard.app.card
+    title="O zadaniu"
+    :icon="model_icon('tasks')"
+>
+    {!! \Illuminate\Mail\Markdown::parse($run->task->description) !!}
+</x-shipyard.app.card>
+@endunless
 
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Project;
 use App\Models\Run;
+use App\Models\Scope;
 use App\Models\Status;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -38,6 +39,23 @@ class TaskMgmtController extends Controller
     }
     #endregion
 
+    #region scopes
+    public function scopes()
+    {
+        abort(501);
+    }
+
+    public function scopeCreate(Request $rq)
+    {
+        Scope::create([
+            "name" => $rq->name,
+            "project_id" => $rq->project_id,
+        ]);
+
+        return back()->with("toast", ["success", "Zakres utworzony"]);
+    }
+    #endregion
+
     #region tasks
     public function tasks()
     {
@@ -57,6 +75,22 @@ class TaskMgmtController extends Controller
             "status_id" => Status::where("index", $new_status_index)->first()->id,
         ]);
         return back()->with("toast", ["success", "Status zmieniony"]);
+    }
+
+    public function taskCreate(Request $rq)
+    {
+        $scope = Scope::findOrFail($rq->scope_id);
+
+        $task = Task::create([
+            "name" => $rq->name,
+            "scope_id" => $scope->id,
+            "description" => $rq->description,
+            "status_id" => Status::where("index", 1)->first()->id,
+            "rate_id" => $scope->project->client->default_rate_id,
+            "rate_value" => $scope->project->client->default_rate_value,
+        ]);
+
+        return redirect()->route("tasks.show", ["task" => $task])->with("toast", ["success", "Zadanie utworzone"]);
     }
     #endregion
 
