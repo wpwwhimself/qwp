@@ -90,7 +90,7 @@ class TaskMgmtController extends Controller
             "rate_value" => $scope->project->client->default_rate_value,
         ]);
 
-        return redirect()->route("tasks.show", ["task" => $task])->with("toast", ["success", "Zadanie utworzone"]);
+        return back()->with("toast", ["success", "Zadanie utworzone"]);
     }
     #endregion
 
