@@ -13,6 +13,7 @@ Route::middleware("auth")->group(function () {
             Route::get("", "clients")->name("clients.list");
             Route::get("{client}", "client")->name("clients.show");
             Route::get("{client}/stats", "clientStats")->name("clients.stats");
+            Route::get("{client}/monthly-summary/{month}", "clientMonthlySummary")->name("clients.monthly-summary");
         });
 
         Route::prefix("projects")->group(function () {

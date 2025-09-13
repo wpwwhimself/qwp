@@ -23,6 +23,36 @@ class TaskMgmtController extends Controller
             "clients",
         ));
     }
+
+    public function clientStats(Client $client)
+    {
+        $sections = [
+            ["label" => "Status projektów", "id" => "projects", "icon" => model_icon("projects")],
+            ["label" => "Nakład prac", "id" => "runs", "icon" => model_icon("runs")],
+        ];
+
+        return view("pages.clients.stats", compact(
+            "client",
+            "sections",
+        ));
+    }
+
+    public function clientMonthlySummary(Client $client, $month)
+    {
+        $runs_this_month = $client->runs_by_month->get($month);
+        $data = $runs_this_month->groupBy([
+                fn ($r) => $r->task->scope->project_id,
+                fn ($r) => $r->task->scope_id,
+                fn ($r) => $r->task_id,
+            ]);
+
+        return view("pages.clients.monthly-summary", compact(
+            "month",
+            "client",
+            "runs_this_month",
+            "data",
+        ));
+    }
     #endregion
 
     #region projects

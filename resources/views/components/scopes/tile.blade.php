@@ -11,14 +11,13 @@
     </div>
 
     <div role="bottom-part">
-        <span class="accent {{ $scope->activeTasks->count() > 0 ? "danger" : "success" }}">
-            <span role="icon" @popper(Aktualne zadania)>
-                <x-shipyard.app.icon :name="model_icon('tasks')" />
-            </span>
-            <span role="value">
-                {{ $scope->activeTasks->count() }}
-            </span>
-        </span>
+        <x-shipyard.app.icon-label-value
+            :icon="model_icon('tasks')"
+            label="Aktualne zadania"
+            :class="'accent '.($scope->activeTasks->count() > 0 ? 'danger' : 'success')"
+        >
+            {{ $scope->activeTasks->count() }}
+        </x-shipyard.app.icon-label-value>
 
         <x-shipyard.ui.button
             icon="plus"

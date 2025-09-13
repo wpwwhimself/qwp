@@ -169,6 +169,31 @@ class Task extends Model
             get: fn () => $this->runs()->sum("hours_spent"),
         );
     }
+
+    public function isFinished(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status_id == Status::final()->id,
+        );
+    }
+
+    public function cost(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $runs_by_month = $this->runs->groupBy(fn ($r) => $r->started_at->format("Y-m"))->sortKeys();
+
+                switch ($this->rate->mode) {
+                    case 0: // jednorazowo
+                        return $runs_by_month->mapWithKeys(fn ($rs, $m) => [$m => $m == $runs_by_month->firstKey() ? $this->rate_value : 0]);
+                    case 1: // miesięcznie
+                        return $runs_by_month->mapWithKeys(fn ($rs, $m) => [$m => null]); // podliczenie osobno ze wszystkimi zadaniami
+                    case 2: // godzinowo
+                        return $runs_by_month->mapWithKeys(fn ($rs, $m) => [$m => $this->rate_value * $rs->sum("hours_spent")]);
+                }
+            },
+        );
+    }
     #endregion
 
     #region relations

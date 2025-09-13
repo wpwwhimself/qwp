@@ -6,6 +6,7 @@ use App\Traits\Shipyard\HasStandardAttributes;
 use App\Traits\Shipyard\HasStandardFields;
 use App\Traits\Shipyard\HasStandardScopes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Mattiverse\Userstamps\Traits\Userstamps;
@@ -170,5 +171,11 @@ class Run extends Model
     #endregion
 
     #region helpers
+    public static function costByMonth(Collection $runs, string $month)
+    {
+        return $runs->mapWithKeys(fn ($run) =>
+            [$run->task_id => $run->task->cost->get($month)]
+        )->sum();
+    }
     #endregion
 }

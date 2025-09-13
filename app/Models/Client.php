@@ -9,6 +9,8 @@ use App\Traits\Shipyard\HasStandardScopes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Mattiverse\Userstamps\Traits\Userstamps;
 
 class Client extends Model
@@ -144,6 +146,15 @@ class Client extends Model
     //         ],
     //     );
     // }
+
+    public function runsByMonth(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Run::whereHas("task.scope.project.client", fn ($q) => $q->where("id", $this->id))
+                ->get()
+                ->groupBy(fn ($r) => $r->started_at->format("Y-m")),
+        );
+    }
     #endregion
 
     #region relations

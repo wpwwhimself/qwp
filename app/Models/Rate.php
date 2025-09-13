@@ -151,5 +151,9 @@ class Rate extends Model
     #endregion
 
     #region helpers
+    public static function asPln(?float $value): string
+    {
+        return ($value === null ? "-" : number_format($value, 2, ",", " ")) . " zł";
+    }
     #endregion
 }

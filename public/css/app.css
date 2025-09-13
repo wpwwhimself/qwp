@@ -1,6 +1,18 @@
+.ms-cost-row {
+    grid-template-columns: 3fr repeat(5, 1fr);
+
+    &:hover {
+        background-color: var(--bg-lite);
+    }
+
+    & > .number {
+        text-align: right;
+    }
+}
+
 .project-logo {
     background-color: var(--accent-color);
-    
+
     & > .icon {
         font-size: 10em;
     }
@@ -19,14 +31,14 @@
         margin: 0.5em;
         column-gap: calc(var(--bar-size) * 1.5);
         padding: 0 0 0 calc(var(--bar-size) / 2);
-    
+
         & > [role="cell"] {
             color: var(--bg-lite);
             background-color: currentColor;
             height: var(--bar-size);
             position: relative;
             border-radius: 0;
-    
+
             &::before, &::after{
                 content: "";
                 position: absolute;
@@ -45,7 +57,7 @@
                 right: calc(-1 * var(--bar-size));
                 border-left-color: inherit;
             }
-    
+
             &:first-child::before {
                 border: none;
                 background-color: currentColor;
@@ -56,7 +68,7 @@
                 right: calc(-1 * var(--bar-size) / 2);
             }
         }
-    
+
         & .highlighted {
             color: rgb(var(--q-clr));
         }
