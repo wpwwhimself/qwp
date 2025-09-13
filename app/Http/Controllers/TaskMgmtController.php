@@ -173,7 +173,7 @@ class TaskMgmtController extends Controller
             "task_id" => $task->id,
             "started_at" => now(),
         ]);
-        return redirect()->route("runs.show", ["run" => $run])->with("toast", ["success", "Sesja rozpoczęta"]);
+        return back()->with("toast", ["success", "Sesja rozpoczęta"]);
     }
 
     public function runFinish(Run $run)
@@ -182,7 +182,7 @@ class TaskMgmtController extends Controller
             "finished_at" => now(),
             "hours_spent" => round(now()->diffInHours($run->started_at, true), 2),
         ]);
-        return redirect()->route("tasks.show", ["task" => $run->task])->with("toast", ["success", "Sesja zakończona"]);
+        return back()->with("toast", ["success", "Sesja zakończona"]);
     }
     #endregion
 }

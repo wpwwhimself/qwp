@@ -1,6 +1,6 @@
 @extends("layouts.shipyard.admin")
 @section("title", $task->name)
-@section("subtitle", $task->scope->name)
+@section("subtitle", $task->scope)
 
 @section("sidebar")
 
@@ -41,6 +41,8 @@
     :id="$sections[0]['id']"
 >
     <x-slot:actions>
+        <x-shipyard.app.model.timestamps :model="$task" />
+
         <x-shipyard.ui.button
             icon="pencil"
             label="Edytuj"
@@ -67,6 +69,8 @@
             :action="route('runs.start', ['task' => $task->id])"
         />
     </x-slot:actions>
+
+    <span>Łączny czas poświęcony: <strong>{{ $task->total_hours_spent }} h</strong></span>
 
     @forelse ($task->runs ?? [] as $run)
     <x-runs.tile :run="$run" />

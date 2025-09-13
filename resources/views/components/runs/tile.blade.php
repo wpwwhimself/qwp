@@ -5,7 +5,7 @@
 <div role="model-card">
     <div role="top-part">
         <div>
-            <h3 class="tile-title">
+            <h3 class="tile-title {{ $run->is_finished ? "" : "accent danger" }}">
                 @if ($run->is_finished)
                 {{ $run->hours_spent }} h
                 @else
@@ -34,6 +34,14 @@
     </div>
 
     <div role="bottom-part">
+        @unless ($run->is_finished)
+        <x-shipyard.ui.button
+            icon="check"
+            label="Zakończ sesję"
+            :action="route('runs.finish', ['run' => $run])"
+            class="danger"
+        />
+        @endunless
         <x-shipyard.ui.button
             icon="arrow-right"
             pop="Przejdź"

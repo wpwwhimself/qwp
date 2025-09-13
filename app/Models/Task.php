@@ -189,7 +189,8 @@ class Task extends Model
 
     public function runs()
     {
-        return $this->hasMany(Run::class);
+        return $this->hasMany(Run::class)
+            ->orderByDesc("started_at");
     }
     #endregion
 
