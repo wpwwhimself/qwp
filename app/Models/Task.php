@@ -29,6 +29,7 @@ class Task extends Model
         "scope_id",
         "description",
         "status_id",
+        "priority",
         "rate_id",
         "rate_value",
     ];
@@ -61,6 +62,20 @@ class Task extends Model
             "type" => "TEXT",
             "label" => "Opis",
             "icon" => "text",
+        ],
+        "priority" => [
+            "type" => "select",
+            "select-data" => [
+                "options" => [
+                    ["value" => 1, "label" => "1 - krytyczny",],
+                    ["value" => 2, "label" => "2 - wysoki",],
+                    ["value" => 3, "label" => "3 - normalny",],
+                    ["value" => 4, "label" => "4 - niski",],
+                    ["value" => 5, "label" => "5 - może kiedyś",],
+                ],
+            ],
+            "label" => "Priorytet",
+            "icon" => "priority-high",
         ],
         "rate_value" => [
             "type" => "number",
@@ -126,7 +141,8 @@ class Task extends Model
 
     public function scopeOrdered($query): void
     {
-        $query->orderBy("created_at");
+        $query->orderBy("priority")
+            ->orderBy("created_at");
     }
 
     public function scopeActive($query): void

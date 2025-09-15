@@ -5,6 +5,7 @@
 
 <div role="model-card">
     <div role="top-part">
+        <h3 role="priority" @popper("Priorytet")>{{ $task->priority }}</h3>
         <x-statuses.tile :status="$task->status" />
         <div>
             <h3 class="tile-title">{{ $task->name }}</h3>
