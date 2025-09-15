@@ -165,7 +165,8 @@ class Project extends Model
     public function activeTasks()
     {
         return $this->hasManyThrough(Task::class, Scope::class)
-            ->whereHas("status", fn ($q) => $q->where("statuses.name", "<>", "wdrożone"));
+            ->whereHas("status", fn ($q) => $q->where("statuses.name", "<>", "wdrożone"))
+            ->ordered();
     }
     #endregion
 

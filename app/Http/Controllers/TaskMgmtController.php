@@ -176,6 +176,7 @@ class TaskMgmtController extends Controller
             "scope_id" => $scope->id,
             "description" => $rq->description,
             "status_id" => Status::where("index", 1)->first()->id,
+            "priority" => $rq->priority ?? 3,
             "rate_id" => $scope->project->client->default_rate_id,
             "rate_value" => $scope->project->client->default_rate_value,
         ]);

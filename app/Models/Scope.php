@@ -120,7 +120,7 @@ class Scope extends Model
 
     public function tasks()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Task::class)->ordered();
     }
 
     public function activeTasks()
