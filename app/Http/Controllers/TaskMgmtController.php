@@ -24,6 +24,11 @@ class TaskMgmtController extends Controller
         ));
     }
 
+    public function client(Client $client)
+    {
+        abort(501);
+    }
+
     public function clientStats(Client $client)
     {
         $sections = [
