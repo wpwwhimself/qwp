@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TaskMgmtController;
+use App\Http\Middleware\Shipyard\EnsureUserHasRole;
 use Illuminate\Support\Facades\Route;
 
 if (file_exists(__DIR__.'/Shipyard/shipyard.php')) require __DIR__.'/Shipyard/shipyard.php';
@@ -11,6 +12,7 @@ Route::middleware("auth")->group(function () {
     Route::controller(TaskMgmtController::class)->group(function () {
         Route::prefix("clients")->group(function () {
             Route::get("", "clients")->name("clients.list");
+            Route::get("my-stats", "clientStatsForClient")->name("clients.stats-for-client")->middleware(EnsureUserHasRole::class.":client");
             Route::get("{client}", "client")->name("clients.show");
             Route::get("{client}/stats", "clientStats")->name("clients.stats");
             Route::get("{client}/monthly-summary/{month}", "clientMonthlySummary")->name("clients.monthly-summary");

@@ -9,6 +9,7 @@ use App\Models\Scope;
 use App\Models\Status;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskMgmtController extends Controller
 {
@@ -40,6 +41,16 @@ class TaskMgmtController extends Controller
             "client",
             "sections",
         ));
+    }
+
+    public function clientStatsForClient()
+    {
+        $client = Client::where("user_id", Auth::id())->first();
+        if (!$client) {
+            return back()->with("toast", ["error", "Musisz być klientem, żeby zobaczyć statystyki"]);
+        }
+
+        return redirect()->route("clients.stats", ["client" => $client]);
     }
 
     public function clientMonthlySummary(Client $client, $month)

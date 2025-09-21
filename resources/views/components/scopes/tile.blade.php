@@ -19,6 +19,7 @@
             {{ $scope->activeTasks->count() }}
         </x-shipyard.app.icon-label-value>
 
+        @if (auth()->user()->hasRole("technical"))
         <x-shipyard.ui.button
             icon="plus"
             pop="Nowe zadanie"
@@ -26,6 +27,7 @@
             onclick="openModal('create-task', {{ json_encode(['scope_id' => $scope->id]) }});"
             class="tertiary"
         />
+        @endif
 
         <x-shipyard.ui.button
             icon="arrow-right"

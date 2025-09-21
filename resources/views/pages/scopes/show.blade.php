@@ -35,11 +35,13 @@
     :id="$sections[0]['id']"
 >
     <x-slot:actions>
+        @if (auth()->user()->hasRole("technical"))
         <x-shipyard.ui.button
             icon="pencil"
             label="Edytuj"
             :action="route('admin.model.edit', ['model' => 'scope', 'id' => $scope->id])"
         />
+        @endif
     </x-slot:actions>
 
     @if ($scope->description)

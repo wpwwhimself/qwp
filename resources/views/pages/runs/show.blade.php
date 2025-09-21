@@ -20,6 +20,7 @@
             @endforeach
         </div>
 
+        @if (auth()->user()->hasRole("technical"))
         <x-shipyard.ui.button
             icon="pencil"
             label="Edytuj"
@@ -33,6 +34,7 @@
             class="danger"
         />
         @endunless
+        @endif
     </x-slot:actions>
 
     @if ($run->description)
