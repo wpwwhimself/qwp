@@ -138,8 +138,11 @@ class TaskMgmtController extends Controller
         if (request()->get("active")) $tasks = $tasks->active();
         $tasks = $tasks->paginate(25);
 
+        $activeRun = Run::whereNull("finished_at")->first();
+
         return view("pages.tasks.list", compact(
             "tasks",
+            "activeRun",
         ));
     }
 

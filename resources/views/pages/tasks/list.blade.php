@@ -10,6 +10,15 @@
         pop-direction="right"
         :action="route('tasks.list', ['active' => !request()->get('active')])"
     />
+    @if ($activeRun)
+    <x-shipyard.ui.button
+        :icon="model_icon('runs')"
+        pop="Aktywna sesja"
+        pop-direction="right"
+        :action="route('tasks.show', ['task' => $activeRun->task])"
+        class="primary"
+    />
+    @endif
 </div>
 
 @endSection
