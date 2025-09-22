@@ -8,8 +8,11 @@ use App\Models\Run;
 use App\Models\Scope;
 use App\Models\Status;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class TaskMgmtController extends Controller
 {
@@ -53,14 +56,19 @@ class TaskMgmtController extends Controller
         return redirect()->route("clients.stats", ["client" => $client]);
     }
 
+    private function getMonthlySummaryData(Client $client, $month)
+    {
+        return $client->runs_by_month->get($month);
+    }
+
     public function clientMonthlySummary(Client $client, $month)
     {
-        $runs_this_month = $client->runs_by_month->get($month);
+        $runs_this_month = $this->getMonthlySummaryData($client, $month);
         $data = $runs_this_month->groupBy([
-                fn ($r) => $r->task->scope->project_id,
-                fn ($r) => $r->task->scope_id,
-                fn ($r) => $r->task_id,
-            ]);
+            fn ($r) => $r->task->scope->project_id,
+            fn ($r) => $r->task->scope_id,
+            fn ($r) => $r->task_id,
+        ]);
 
         return view("pages.clients.monthly-summary", compact(
             "month",
@@ -68,6 +76,23 @@ class TaskMgmtController extends Controller
             "runs_this_month",
             "data",
         ));
+    }
+
+    public function clientMonthlySummaryDownload(Client $client, $month)
+    {
+        $data = $this->getMonthlySummaryData($client, $month);
+
+        $title = "Podsumowanie miesięczne prac - ". Carbon::parse($month)->format("m.Y");
+
+        $document = new Spreadsheet();
+        $worksheet = $document->getActiveSheet();
+
+        $worksheet->setCellValue("A1", $title);
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="'.$title.'.xlsx"');
+        IOFactory::createWriter($document, "Xlsx")
+            ->save("php://output");
     }
     #endregion
 

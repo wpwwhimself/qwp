@@ -8,6 +8,15 @@
     title="Podsumowanie"
     icon="cash"
 >
+    <x-slot:actions>
+        <x-shipyard.ui.button
+            icon="download"
+            label="Pobierz zestawienie"
+            :action="route('clients.monthly-summary.download', ['client' => $client, 'month' => $month])"
+            class="primary"
+        />
+    </x-slot:actions>
+
     <div class="flex right center">
         <x-shipyard.app.h lvl="3" icon="timer">
             Przepracowano:
