@@ -35,13 +35,12 @@
     :id="$sections[0]['id']"
 >
     <x-slot:actions>
-        @if (auth()->user()->hasRole("technical"))
         <x-shipyard.ui.button
             icon="pencil"
             label="Edytuj"
             :action="route('admin.model.edit', ['model' => 'project', 'id' => $project->id])"
+            show-for="technical"
         />
-        @endif
     </x-slot:actions>
 
     <div class="flex right">
@@ -75,15 +74,14 @@
     :id="$sections[2]['id']"
 >
     <x-slot:actions>
-        @if (auth()->user()->hasRole("technical"))
         <x-shipyard.ui.button
             icon="plus"
             label="Dodaj"
             action="none"
             onclick="openModal('create-scope', {{ json_encode(['project_id' => $project->id]) }});"
             class="tertiary"
+            show-for="technical"
         />
-        @endif
     </x-slot:actions>
 
     @forelse ($project->scopes as $scope)

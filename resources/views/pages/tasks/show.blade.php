@@ -43,13 +43,12 @@
     <x-slot:actions>
         <x-shipyard.app.model.timestamps :model="$task" />
 
-        @if (auth()->user()->hasRole("technical"))
         <x-shipyard.ui.button
             icon="pencil"
             label="Edytuj"
             :action="route('admin.model.edit', ['model' => 'task', 'id' => $task->id])"
+            show-for="technical"
         />
-        @endif
     </x-slot:actions>
 
     <x-statuses.bar :status="$task->status" :allow-restatus-for-task="$task" />
@@ -65,13 +64,12 @@
     :id="$sections[1]['id']"
 >
     <x-slot:actions>
-        @if (auth()->user()->hasRole("technical"))
         <x-shipyard.ui.button
             icon="plus"
             label="Rozpocznij nową"
             :action="route('runs.start', ['task' => $task->id])"
+            show-for="technical"
         />
-        @endif
     </x-slot:actions>
 
     <span>Łączny czas poświęcony: <strong>{{ $task->total_hours_spent }} h</strong></span>

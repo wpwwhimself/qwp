@@ -20,11 +20,11 @@
             @endforeach
         </div>
 
-        @if (auth()->user()->hasRole("technical"))
         <x-shipyard.ui.button
             icon="pencil"
             label="Edytuj"
             :action="route('admin.model.edit', ['model' => 'run', 'id' => $run->id])"
+            show-for="technical"
         />
         @unless ($run->is_finished)
         <x-shipyard.ui.button
@@ -32,9 +32,9 @@
             label="Zakończ sesję"
             :action="route('runs.finish', ['run' => $run])"
             class="danger"
+            show-for="technical"
         />
         @endunless
-        @endif
     </x-slot:actions>
 
     @if ($run->description)
