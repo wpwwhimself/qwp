@@ -11,8 +11,12 @@ use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat\Wizard\Accounting;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat\Wizard\Currency;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat\Wizard\Number;
 
 class TaskMgmtController extends Controller
 {
@@ -80,14 +84,64 @@ class TaskMgmtController extends Controller
 
     public function clientMonthlySummaryDownload(Client $client, $month)
     {
-        $data = $this->getMonthlySummaryData($client, $month);
+        $data = $this->getMonthlySummaryData($client, $month)
+            ->groupBy("task_id")
+            ->map(function ($runs) use ($month) {
+                $exemplar = $runs->first();
+                return[
+                    "project" => $exemplar->task->scope->project,
+                    "scope" => $exemplar->task->scope,
+                    "task" => $exemplar->task,
+                    "started_at" => $exemplar->started_at->format("Y-m-d"),
+                    "hours_spent" => $runs->sum("hours_spent"),
+                    "status" => $exemplar->task->status,
+                    "finished_at" => $exemplar->task->is_finished ? $exemplar->finished_at->format("Y-m-d") : null,
+                    "cost" => $exemplar->task->cost->get($month),
+                ];
+            })
+            ->sortBy([
+                "project.name",
+                "scope.name",
+                "task.created_at",
+            ]);
 
         $title = "Podsumowanie miesięczne prac - ". Carbon::parse($month)->format("m.Y");
 
         $document = new Spreadsheet();
         $worksheet = $document->getActiveSheet();
 
-        $worksheet->setCellValue("A1", $title);
+        $worksheet->setCellValue([1, 1], $title);
+        $worksheet->mergeCells([1, 1, 6, 1]);
+        $worksheet->setCellValue([7, 1], "wynagrodzenie łączne");
+        $worksheet->setCellValue([8, 1], $data->sum("cost"));
+        $worksheet->getRowDimension(1)->setRowHeight(30);
+
+        $worksheet->setCellValue([1, 2], "Projekt");
+        $worksheet->setCellValue([2, 2], "Zakres");
+        $worksheet->setCellValue([3, 2], "Zadanie");
+        $worksheet->setCellValue([4, 2], "Data przyjęcia");
+        $worksheet->setCellValue([5, 2], "Czas poświęcony [h]");
+        $worksheet->setCellValue([6, 2], "Status");
+        $worksheet->setCellValue([7, 2], "Data wdrożenia");
+        $worksheet->setCellValue([8, 2], "Wynagrodzenie");
+
+        $row_id = 3;
+        foreach ($data as $task_data) {
+            $worksheet->setCellValue([1, $row_id], $task_data["project"]->name);
+            $worksheet->setCellValue([2, $row_id], $task_data["scope"]->name);
+            $worksheet->setCellValue([3, $row_id], $task_data["task"]->name);
+            $worksheet->setCellValue([4, $row_id], $task_data["started_at"]);
+            $worksheet->setCellValue([5, $row_id], $task_data["hours_spent"]);
+            $worksheet->setCellValue([6, $row_id], $task_data["status"]->name);
+            $worksheet->setCellValue([7, $row_id], $task_data["finished_at"]);
+            $worksheet->setCellValue([8, $row_id], $task_data["cost"]);
+            $row_id++;
+        }
+
+        $hrs = new Currency("h", currencySymbolPosition: Currency::TRAILING_SYMBOL, currencySymbolSpacing: Currency::SYMBOL_WITH_SPACING);
+        $worksheet->getStyle("E:E")->getNumberFormat()->setFormatCode($hrs);
+        $pln = new Accounting("zł", currencySymbolPosition: Currency::TRAILING_SYMBOL, currencySymbolSpacing: Currency::SYMBOL_WITH_SPACING);
+        $worksheet->getStyle("H:H")->getNumberFormat()->setFormatCode($pln);
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="'.$title.'.xlsx"');
