@@ -23,7 +23,7 @@
         :action="route('tasks.list', ['filter' => 'out-ready'])"
     />
     <x-shipyard.ui.button
-        icon="pencil"
+        icon="test-tube"
         pop="Pokaż w testach"
         pop-direction="right"
         :action="route('tasks.list', ['filter' => 'tested'])"
