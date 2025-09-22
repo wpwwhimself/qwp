@@ -149,6 +149,11 @@ class Task extends Model
     {
         $query->ordered()->where("status_id", "!=", Status::final()->id);
     }
+
+    public function scopePending($query): void
+    {
+        $query->ordered()->where("status_id", Status::where("index", 1)->first()->id);
+    }
     #endregion
 
     #region attributes

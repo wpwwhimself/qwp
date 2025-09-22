@@ -11,6 +11,12 @@
         :action="route('tasks.list')"
     />
     <x-shipyard.ui.button
+        icon="timer-sand"
+        pop="Pokaż oczekujące"
+        pop-direction="right"
+        :action="route('tasks.list', ['filter' => 'pending'])"
+    />
+    <x-shipyard.ui.button
         icon="fire"
         pop="Pokaż aktywne"
         pop-direction="right"
@@ -29,9 +35,9 @@
         :action="route('tasks.list', ['filter' => 'tested'])"
     />
 
+    @if ($activeRun)
     <x-shipyard.app.sidebar-separator />
 
-    @if ($activeRun)
     <x-shipyard.ui.button
         :icon="model_icon('runs')"
         pop="Aktywna sesja"

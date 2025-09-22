@@ -230,6 +230,10 @@ class TaskMgmtController extends Controller
                 $tasks = $tasks->active();
                 break;
 
+            case "pending":
+                $tasks = $tasks->pending();
+                break;
+
             case "out-ready":
                 $tasks = $tasks->where("status_id", Status::where("name", "do opisania")->first()->id);
                 break;
