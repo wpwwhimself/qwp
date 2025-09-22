@@ -5,11 +5,32 @@
 
 <div class="card stick-top">
     <x-shipyard.ui.button
-        :icon="model_icon('tasks')"
-        :pop="request()->get('active') ? 'Pokaż wszystkie' : 'Pokaż aktywne'"
+        icon="set-all"
+        pop="Pokaż wszystkie"
         pop-direction="right"
-        :action="route('tasks.list', ['active' => !request()->get('active')])"
+        :action="route('tasks.list')"
     />
+    <x-shipyard.ui.button
+        icon="fire"
+        pop="Pokaż aktywne"
+        pop-direction="right"
+        :action="route('tasks.list', ['filter' => 'active'])"
+    />
+    <x-shipyard.ui.button
+        icon="pencil"
+        pop="Pokaż do opisania"
+        pop-direction="right"
+        :action="route('tasks.list', ['filter' => 'out-ready'])"
+    />
+    <x-shipyard.ui.button
+        icon="pencil"
+        pop="Pokaż w testach"
+        pop-direction="right"
+        :action="route('tasks.list', ['filter' => 'tested'])"
+    />
+
+    <x-shipyard.app.sidebar-separator />
+
     @if ($activeRun)
     <x-shipyard.ui.button
         :icon="model_icon('runs')"

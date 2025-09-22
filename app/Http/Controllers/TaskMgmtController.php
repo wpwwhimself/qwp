@@ -225,7 +225,19 @@ class TaskMgmtController extends Controller
     public function tasks()
     {
         $tasks = Task::ordered();
-        if (request()->get("active")) $tasks = $tasks->active();
+        switch (request()->get("filter")) {
+            case "active":
+                $tasks = $tasks->active();
+                break;
+
+            case "out-ready":
+                $tasks = $tasks->where("status_id", Status::where("name", "do opisania")->first()->id);
+                break;
+
+            case "tested":
+                $tasks = $tasks->where("status_id", Status::where("name", "w testach")->first()->id);
+                break;
+        }
         $tasks = $tasks->paginate(25);
 
         $activeRun = Run::whereNull("finished_at")->first();
