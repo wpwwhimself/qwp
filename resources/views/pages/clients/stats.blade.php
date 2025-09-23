@@ -34,7 +34,23 @@
     :id="$sections[0]['id']"
 >
     @foreach ($client->projects as $project)
-    <x-projects.tile :project="$project" />
+    <x-shipyard.app.model.tile :model="$project">
+        <x-slot:actions>
+            <x-shipyard.app.icon-label-value
+                :icon="model_icon('tasks')"
+                label="Aktualne zadania"
+                :class="'accent '.($project->activeTasks->count() > 0 ? 'danger' : 'success')"
+            >
+                {{ $project->activeTasks->count() }}
+            </x-shipyard.app.icon-label-value>
+
+            <x-shipyard.ui.button
+                icon="arrow-right"
+                pop="Przejdź"
+                :action="route('projects.show', ['project' => $project])"
+            />
+        </x-slot:actions>
+    </x-shipyard.app.model.tile>
     @endforeach
 </x-shipyard.app.card>
 

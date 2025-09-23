@@ -16,7 +16,19 @@
     </x-slot:actions>
 
     @forelse ($clients as $client)
-    <x-clients.tile :client="$client" />
+    <x-shipyard.app.model.tile :model="$client">
+        <x-slot:actions>
+            @foreach ($client->projects ?? [] as $project)
+            <x-projects.button :project="$project" />
+            @endforeach
+
+            <x-shipyard.ui.button
+                icon="finance"
+                label="Statystyki"
+                :action="route('clients.stats', ['client' => $client])"
+            />
+        </x-slot:actions>
+    </x-shipyard.app.model.tile>
     @empty
     <span class="ghost">Brak klientów</span>
     @endforelse

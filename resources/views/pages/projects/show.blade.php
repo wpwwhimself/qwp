@@ -62,7 +62,15 @@
     :id="$sections[1]['id']"
 >
     @forelse ($project->activeTasks ?? [] as $task)
-    <x-tasks.tile :task="$task" />
+    <x-shipyard.app.model.tile :model="$task">
+        <x-slot:actions>
+            <x-shipyard.ui.button
+                icon="arrow-right"
+                pop="Przejdź"
+                :action="route('tasks.show', ['task' => $task])"
+            />
+        </x-slot:actions>
+    </x-shipyard.app.model.tile>
     @empty
     <p class="ghost"><x-shipyard.app.icon name="check" /> Wszystkie zadania wykonane!</p>
     @endforelse
@@ -85,7 +93,32 @@
     </x-slot:actions>
 
     @forelse ($project->scopes as $scope)
-    <x-scopes.tile :scope="$scope" />
+    <x-shipyard.app.model.tile :model="$scope">
+        <x-slot:actions>
+            <x-shipyard.app.icon-label-value
+                :icon="model_icon('tasks')"
+                label="Aktualne zadania"
+                :class="'accent '.($scope->activeTasks->count() > 0 ? 'danger' : 'success')"
+            >
+                {{ $scope->activeTasks->count() }}
+            </x-shipyard.app.icon-label-value>
+
+            <x-shipyard.ui.button
+                icon="plus"
+                pop="Nowe zadanie"
+                action="none"
+                onclick="openModal('create-task', {{ json_encode(['scope_id' => $scope->id]) }});"
+                class="tertiary"
+                show-for="technical"
+            />
+
+            <x-shipyard.ui.button
+                icon="arrow-right"
+                pop="Przejdź"
+                :action="route('scopes.show', ['scope' => $scope])"
+            />
+        </x-slot:actions>
+    </x-shipyard.app.model.tile>
     @empty
     <span class="ghost">Brak zdefiniowanych zakresów</span>
     @endforelse

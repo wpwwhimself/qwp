@@ -8,6 +8,7 @@ use App\Traits\Shipyard\HasStandardScopes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\View\ComponentAttributeBag;
 use Mattiverse\Userstamps\Traits\Userstamps;
 
 class Status extends Model
@@ -31,6 +32,7 @@ class Status extends Model
         "index",
     ];
 
+    #region presentation
     public function __toString(): string
     {
         return view("components.statuses.tile", ["status" => $this])->render();
@@ -42,6 +44,40 @@ class Status extends Model
             get: fn () => $this->name,
         );
     }
+
+    public function displayTitle(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => view("components.shipyard.app.h", [
+                "lvl" => 3,
+                "icon" => $this->icon ?? self::META["icon"],
+                "attributes" => new ComponentAttributeBag([
+                    "role" => "card-title",
+                ]),
+                "slot" => $this->name,
+            ])->render(),
+        );
+    }
+
+    public function displaySubtitle(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => view("components.shipyard.app.model.badges", [
+                "badges" => $this->badges,
+            ])->render(),
+        );
+    }
+
+    public function displayMiddlePart(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => view("components.shipyard.app.model.connections-preview", [
+                "connections" => self::connections(),
+                "model" => $this,
+            ])->render(),
+        );
+    }
+    #endregion
 
     #region fields
     use HasStandardFields;

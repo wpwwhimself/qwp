@@ -65,7 +65,15 @@
     </x-slot:actions>
 
     @forelse ($tasks as $task)
-    <x-tasks.tile :task="$task" full-scope-name />
+    <x-shipyard.app.model.tile :model="$task">
+        <x-slot:actions>
+            <x-shipyard.ui.button
+                icon="arrow-right"
+                pop="Przejdź"
+                :action="route('tasks.show', ['task' => $task])"
+            />
+        </x-slot:actions>
+    </x-shipyard.app.model.tile>
     @empty
     <span class="ghost">Brak zadań</span>
     @endforelse

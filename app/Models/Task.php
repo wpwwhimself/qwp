@@ -8,6 +8,7 @@ use App\Traits\Shipyard\HasStandardScopes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\View\ComponentAttributeBag;
 use Mattiverse\Userstamps\Traits\Userstamps;
 
 class Task extends Model
@@ -34,6 +35,7 @@ class Task extends Model
         "rate_value",
     ];
 
+    #region presentation
     public function __toString(): string
     {
         return implode(" | ", [
@@ -53,6 +55,41 @@ class Task extends Model
             ]),
         );
     }
+
+    public function displayTitle(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => "<div class='flex right nowrap middle' role='card-title'>"
+            . view("components.shipyard.app.icon", [
+                "name" => "numeric-$this->priority-circle",
+            ])->render()
+            . "<strong>$this->name</strong>"
+            . "</div>",
+        );
+    }
+
+    public function displaySubtitle(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->scope,
+        );
+    }
+
+    public function displayMiddlePart(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => view("components.shipyard.app.model.connections-preview", [
+                "connections" => array_filter(self::connections(), fn ($n) => $n != "scope", ARRAY_FILTER_USE_KEY),
+                "model" => $this,
+            ])->render()
+            . view("components.shipyard.app.icon-label-value", [
+                "icon" => "timer",
+                "label" => "Łączny czas poświęcony",
+                "slot" => "$this->total_hours_spent h",
+            ])->render(),
+        );
+    }
+    #endregion
 
     #region fields
     use HasStandardFields;
@@ -170,19 +207,18 @@ class Task extends Model
 
     use HasStandardAttributes;
 
-    // public function badges(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: fn () => [
-    //             [
-    //                 "label" => "",
-    //                 "icon" => "",
-    //                 "class" => "",
-    //                 "condition" => "",
-    //             ],
-    //         ],
-    //     );
-    // }
+    public function badges(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => [
+                // [
+                //     "html" => view("components.statuses.tile", [
+                //         "status" => $this->status,
+                //     ]),
+                // ],
+            ],
+        );
+    }
 
     public function totalHoursSpent(): Attribute
     {
