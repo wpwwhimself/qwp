@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Shipyard\LocalSetting as ShipyardLocalSetting;
+use App\Models\Shipyard\Setting as ShipyardSetting;
 
-class LocalSetting extends ShipyardLocalSetting
+class Setting extends ShipyardSetting
 {
     public static function fields(): array
     {
@@ -14,7 +14,7 @@ class LocalSetting extends ShipyardLocalSetting
          * each section contains fields (name, label, hint, icon)
          */
         return [
-
+            
         ];
     }
 }
