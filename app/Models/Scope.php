@@ -77,7 +77,7 @@ class Scope extends Model
     {
         return Attribute::make(
             get: fn () => view("components.shipyard.app.model.connections-preview", [
-                "connections" => self::connections(),
+                "connections" => self::getConnections(),
                 "model" => $this,
             ])->render(),
         );

@@ -79,7 +79,7 @@ class Task extends Model
     {
         return Attribute::make(
             get: fn () => view("components.shipyard.app.model.connections-preview", [
-                "connections" => array_filter(self::connections(), fn ($n) => $n != "scope", ARRAY_FILTER_USE_KEY),
+                "connections" => array_filter(self::getConnections(), fn ($n) => $n != "scope", ARRAY_FILTER_USE_KEY),
                 "model" => $this,
             ])->render()
             . view("components.shipyard.app.icon-label-value", [

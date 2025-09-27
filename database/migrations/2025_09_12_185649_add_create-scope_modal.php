@@ -21,7 +21,7 @@ return new class extends Migration
                     "name",
                     "text",
                     "Nazwa zakresu",
-                    model("scopes")::fields()["name"]["icon"],
+                    model("scopes")::getFields()["name"]["icon"],
                     true,
                 ],
             ],
