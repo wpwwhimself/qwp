@@ -6,5 +6,5 @@ use App\Models\Shipyard\User as ShipyardUser;
 
 class User extends ShipyardUser
 {
-
+    public const FROM_SHIPYARD = true;
 }

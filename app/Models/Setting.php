@@ -6,6 +6,8 @@ use App\Models\Shipyard\Setting as ShipyardSetting;
 
 class Setting extends ShipyardSetting
 {
+    public const FROM_SHIPYARD = true;
+
     public static function fields(): array
     {
         /**
@@ -14,7 +16,7 @@ class Setting extends ShipyardSetting
          * each section contains fields (name, label, hint, icon)
          */
         return [
-            
+            //
         ];
     }
 }
