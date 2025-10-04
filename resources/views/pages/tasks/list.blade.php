@@ -15,7 +15,7 @@
         />
     </x-slot:actions>
 
-    <div class="kanban grid" style="--statuses-count: {{ count($statuses) }};">
+    <div class="kanban">
         @foreach ($statuses as $status)
         <div class="flex down">
             <div class="flex right middle spread">

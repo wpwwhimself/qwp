@@ -1,11 +1,25 @@
 .kanban {
     overflow-x: auto;
+    white-space: nowrap;
 
-    grid-template-columns: repeat(var(--statuses-count), 30%);
+    & > div {
+        display: inline-flex;
+        width: 400px;
+        vertical-align: top;
+        margin-inline: 0.25em;
+    }
 
     & .kanban-tile {
         & [role="kanban-tile-title"] {
             width: 100%;
+        }
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .kanban {
+        & > div {
+            width: calc(100% - 3em);
         }
     }
 }
