@@ -1,3 +1,15 @@
+.kanban {
+    overflow-x: auto;
+
+    grid-template-columns: repeat(var(--statuses-count), 30%);
+
+    & .kanban-tile {
+        & [role="kanban-tile-title"] {
+            width: 100%;
+        }
+    }
+}
+
 .ms-cost-row {
     grid-template-columns: 3fr repeat(5, 1fr);
 

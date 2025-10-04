@@ -1,55 +1,6 @@
 @extends("layouts.shipyard.admin")
 @section("title", request()->get('active') ? "Aktywne zadania" : "Zadania")
 
-@section("sidebar")
-
-<div class="card stick-top">
-    <x-shipyard.ui.button
-        icon="set-all"
-        pop="Pokaż wszystkie"
-        pop-direction="right"
-        :action="route('tasks.list')"
-    />
-    <x-shipyard.ui.button
-        icon="timer-sand"
-        pop="Pokaż oczekujące"
-        pop-direction="right"
-        :action="route('tasks.list', ['filter' => 'pending'])"
-    />
-    <x-shipyard.ui.button
-        icon="fire"
-        pop="Pokaż aktywne"
-        pop-direction="right"
-        :action="route('tasks.list', ['filter' => 'active'])"
-    />
-    <x-shipyard.ui.button
-        icon="pencil"
-        pop="Pokaż do opisania"
-        pop-direction="right"
-        :action="route('tasks.list', ['filter' => 'out-ready'])"
-    />
-    <x-shipyard.ui.button
-        icon="test-tube"
-        pop="Pokaż w testach"
-        pop-direction="right"
-        :action="route('tasks.list', ['filter' => 'tested'])"
-    />
-
-    @if ($activeRun)
-    <x-shipyard.app.sidebar-separator />
-
-    <x-shipyard.ui.button
-        :icon="model_icon('runs')"
-        pop="Aktywna sesja"
-        pop-direction="right"
-        :action="route('tasks.show', ['task' => $activeRun->task])"
-        class="primary"
-    />
-    @endif
-</div>
-
-@endSection
-
 @section("content")
 
 <x-shipyard.app.card
@@ -64,21 +15,31 @@
         />
     </x-slot:actions>
 
-    @forelse ($tasks as $task)
-    <x-shipyard.app.model.tile :model="$task">
-        <x-slot:actions>
-            <x-shipyard.ui.button
-                icon="arrow-right"
-                pop="Przejdź"
-                :action="route('tasks.show', ['task' => $task])"
-            />
-        </x-slot:actions>
-    </x-shipyard.app.model.tile>
-    @empty
-    <span class="ghost">Brak zadań</span>
-    @endforelse
+    <div class="kanban grid" style="--statuses-count: {{ count($statuses) }};">
+        @foreach ($statuses as $status)
+        <div class="flex down">
+            <div class="flex right middle spread">
+                {!! $status->display_title !!}
+                @php $count = count($tasks[$status->id] ?? []) @endphp
+                <span class="tag accent background {{ $count > 0 ? 'danger' : 'success' }}">{{ $count }}</span>
+            </div>
 
-    {{ $tasks->links() }}
+            @forelse ($tasks[$status->id] ?? [] as $task)
+            <x-tasks.kanban-tile :task="$task">
+                <x-slot:actions>
+                    <x-shipyard.ui.button
+                        icon="arrow-right"
+                        pop="Przejdź"
+                        :action="route('tasks.show', ['task' => $task])"
+                    />
+                </x-slot:actions>
+            </x-tasks.kanban-tile>
+            @empty
+            <span class="ghost">Brak zadań</span>
+            @endforelse
+        </div>
+        @endforeach
+    </div>
 </x-shipyard.app.card>
 
 @endsection

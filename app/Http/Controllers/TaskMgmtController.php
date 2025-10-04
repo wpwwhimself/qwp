@@ -224,29 +224,16 @@ class TaskMgmtController extends Controller
     #region tasks
     public function tasks()
     {
-        $tasks = Task::ordered();
-        switch (request()->get("filter")) {
-            case "active":
-                $tasks = $tasks->active();
-                break;
-
-            case "pending":
-                $tasks = $tasks->pending();
-                break;
-
-            case "out-ready":
-                $tasks = $tasks->where("status_id", Status::where("name", "do opisania")->first()->id);
-                break;
-
-            case "tested":
-                $tasks = $tasks->where("status_id", Status::where("name", "w testach")->first()->id);
-                break;
-        }
-        $tasks = $tasks->paginate(25);
+        $statuses = Status::ordered()->get()
+            ->filter(fn ($s) => $s->id != Status::final()->id);
+        $tasks = Task::ordered()
+            ->get()
+            ->groupBy("status_id");
 
         $activeRun = Run::whereNull("finished_at")->first();
 
         return view("pages.tasks.list", compact(
+            "statuses",
             "tasks",
             "activeRun",
         ));
