@@ -10,8 +10,11 @@
     }
 
     & .kanban-tile {
+        width: 100%;
+
         & [role="kanban-tile-title"] {
             width: 100%;
+            white-space: normal;
         }
     }
 }
