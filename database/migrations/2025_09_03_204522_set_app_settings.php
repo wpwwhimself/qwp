@@ -20,6 +20,7 @@ return new class extends Migration
             ["app_accent_color_2_light", "#2f8b71"],
             ["app_accent_color_3_dark", "#afa329"],
             ["app_accent_color_3_light", "#afa329"],
+            ["app_theme" => "future"],
         ] as [$field, $value]) {
             Setting::find($field)->update(["value" => $value]);
         }
