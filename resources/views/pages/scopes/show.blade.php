@@ -9,7 +9,6 @@
     <x-shipyard.ui.button
         :icon="$section['icon'] ?? null"
         :pop="$section['label']"
-        pop-direction="right"
         :action="'#'.$section['id'] ?? null"
         class="tertiary"
     />
@@ -20,7 +19,6 @@
     <x-shipyard.ui.button
         :icon="model_icon('projects')"
         pop="Projekt"
-        pop-direction="right"
         :action="route('projects.show', ['project' => $scope->project])"
     />
 </div>

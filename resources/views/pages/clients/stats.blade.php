@@ -8,7 +8,6 @@
     <x-shipyard.ui.button
         :icon="$section['icon'] ?? null"
         :pop="$section['label']"
-        pop-direction="right"
         :action="'#'.$section['id']"
         class="tertiary"
     />
@@ -19,7 +18,6 @@
     <x-shipyard.ui.button
         :icon="model_icon('clients')"
         pop="Klient"
-        pop-direction="right"
         :action="route('clients.show', ['client' => $client])"
     />
 </div>

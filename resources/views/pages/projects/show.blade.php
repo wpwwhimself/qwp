@@ -9,18 +9,25 @@
     <x-shipyard.ui.button
         :icon="$section['icon'] ?? null"
         :pop="$section['label']"
-        pop-direction="right"
         :action="'#'.$section['id'] ?? null"
         class="tertiary"
     />
     @endforeach
+
+    @if ($project->client->projects()->count())
+    <x-shipyard.app.sidebar-separator />
+
+    @foreach ($project->client->projects as $alt_project)
+    @continue ($alt_project->id == $project->id)
+    <x-projects.button :project="$alt_project" />
+    @endforeach
+    @endif
 
     <x-shipyard.app.sidebar-separator />
 
     <x-shipyard.ui.button
         :icon="model_icon('clients')"
         pop="Klient"
-        pop-direction="right"
         :action="route('clients.show', ['client' => $project->client])"
     />
 </div>
