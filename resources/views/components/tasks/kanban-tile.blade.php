@@ -3,7 +3,7 @@
 ])
 
 <div {{ $attributes->class([
-    "kanban-tile",
+    "kanban-tile", "tile",
     "flex", "down", "center", "middle",
     "bordered", "rounded", "padded",
 ]) }}>

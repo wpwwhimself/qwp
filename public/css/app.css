@@ -1,6 +1,7 @@
 .kanban {
     overflow-x: auto;
     white-space: nowrap;
+    width: calc(100vw - 10em);
 
     & > div {
         display: inline-flex;
@@ -10,7 +11,7 @@
     }
 
     & .kanban-tile {
-        width: 100%;
+        margin-block: 0 !important;
 
         & [role="kanban-tile-title"] {
             width: 100%;
