@@ -234,6 +234,13 @@ class Task extends Model
         );
     }
 
+    public function hasActiveRun(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->runs()->whereNull("finished_at")->exists(),
+        );
+    }
+
     public function cost(): Attribute
     {
         return Attribute::make(

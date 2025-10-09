@@ -15,6 +15,12 @@
 
         @isset ($actions)
         <div class="actions">
+            @if ($task->has_active_run)
+            <span @popper(Sesja trwa) class="accent danger">
+                <x-shipyard.app.icon :name="model_icon('runs')" />
+            </span>
+            @endif
+
             {{ $actions }}
         </div>
         @endisset
