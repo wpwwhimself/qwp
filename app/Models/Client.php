@@ -186,7 +186,8 @@ class Client extends Model
         return Attribute::make(
             get: fn () => Run::whereHas("task.scope.project.client", fn ($q) => $q->where("id", $this->id))
                 ->get()
-                ->groupBy(fn ($r) => $r->started_at->format("Y-m")),
+                ->groupBy(fn ($r) => $r->started_at->format("Y-m"))
+                ->sortKeysDesc(),
         );
     }
     #endregion
