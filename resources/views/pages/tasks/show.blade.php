@@ -71,11 +71,13 @@
 
     <span>Łączny czas poświęcony: <strong>{{ $task->total_hours_spent }} h</strong></span>
 
-    @forelse ($task->runs ?? [] as $run)
+    @forelse ($paged_runs as $run)
     <x-runs.tile :run="$run" />
     @empty
     <p class="ghost">To zadanie jeszcze nie ma zarejestrowanych sesji.</p>
     @endforelse
+
+    {{ $paged_runs->links("components.shipyard.pagination.default") }}
 </x-shipyard.app.card>
 
 @endsection

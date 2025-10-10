@@ -254,8 +254,11 @@ class TaskMgmtController extends Controller
             ],
         ];
 
+        $paged_runs = $task->runs()->paginate(10);
+
         return view("pages.tasks.show", compact(
             "task",
+            "paged_runs",
             "sections",
         ));
     }
