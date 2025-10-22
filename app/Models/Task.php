@@ -102,7 +102,7 @@ class Task extends Model
         ],
         "priority" => [
             "type" => "select",
-            "select-data" => [
+            "selectData" => [
                 "options" => [
                     ["value" => 1, "label" => "1 - krytyczny",],
                     ["value" => 2, "label" => "2 - wysoki",],

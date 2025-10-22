@@ -88,7 +88,7 @@ class Rate extends Model
         ],
         "mode" => [
             "type" => "select",
-            "select-data" => [
+            "selectData" => [
                 "options" => [
                     ["value" => 0, "label" => "jednorazowo"],
                     ["value" => 1, "label" => "miesięczna"],
