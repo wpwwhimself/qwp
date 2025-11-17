@@ -49,6 +49,11 @@
     </x-slot:actions>
 
     <x-statuses.bar :status="$task->status" :allow-restatus-for-task="$task" />
+    <script>
+    function restatusTask(url) {
+        window.location.href = url;
+    }
+    </script>
 
     @if ($task->description)
     {!! \Illuminate\Mail\Markdown::parse($task->description) !!}

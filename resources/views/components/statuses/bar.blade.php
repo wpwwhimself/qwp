@@ -3,25 +3,24 @@
     "allowRestatusForTask" => null,
 ])
 
-<div class="status-bar" style="color: {{ $status->color }};">
+@php
+$restatus_functions = ($allowRestatusForTask)
+    ? collect(range(1, $status->maxIndex()))
+        ->map(fn ($i) => [
+            "restatusTask('" . route("tasks.restatus", ['task' => $allowRestatusForTask, 'new_status_index' => $i]) . "');",
+            "Przenieś do: " . \App\Models\Status::where("index", $i)->first()->name,
+        ])
+    : [];
+@endphp
+
+<x-shipyard.app.phase-bar
+    :total="$status->maxIndex()"
+    :current="$status->index"
+    :color="$status->color"
+    :click-functions="$restatus_functions"
+>
     <h3>
         <x-shipyard.app.icon :name="$status->icon" />
         {{ $status->name }}
     </h3>
-    <div role="bars" style="--max-index: {{ $status->maxIndex() }};">
-        @for ($i = 1; $i <= $status->maxIndex(); $i++)
-        @if ($allowRestatusForTask && $i != $status->index)
-        <a href="{{ route("tasks.restatus", ['task' => $allowRestatusForTask, 'new_status_index' => $i]) }}"
-        @else
-        <div
-        @endif
-            role="cell"
-            {{ ($i <= $status->index) ? "class=highlighted" : "" }}
-        @if ($allowRestatusForTask && $i != $status->index)
-        ></a>
-        @else
-        ></div>
-        @endif
-        @endfor
-    </div>
-</div>
+</x-shipyard.app.phase-bar>
