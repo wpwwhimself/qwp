@@ -14,7 +14,7 @@ class ShipyardTheme
      * - origin - separated cells, clean background, contents floating in the middle
      * - austerity - broad background, main sections spread out
      */
-    public const THEME = "future";
+    public const THEME = "origin";
     #endregion
 
     #region colors

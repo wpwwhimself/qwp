@@ -1,5 +1,70 @@
-* {
+/*********** theme overwrites ************/
+
+/* backdropped */
+.card, [role$="card"], .section,
+footer,
+header,
+.tile {
+    background: linear-gradient(-45deg, var(--bg), var(--bg-ghost));
+}
+
+/* bordered - remove */
+.button,
+.card, [role$="card"], .section,
+footer,
+header,
+.input-container,
+[role="file-card"],
+.tile {
+    border: none;
+}
+
+/* cut-corners */
+.button,
+.card, [role$="card"], .section,
+.chart .value,
+footer,
+header,
+.progress-bar,
+[role="file-card"],
+.tag,
+.tile,
+#toast {
+    --tip-size: 2em;
     --path: polygon(0 100%, calc(100% - var(--tip-size)) 100%, 100% calc(100% - var(--tip-size) / 3 * 2), 100% 0, var(--tip-size) 0, 0 calc(var(--tip-size) / 3 * 2)) !important;
+    clip-path: var(--path);
+}
+
+/* milky */
+#toast {
+    backdrop-filter: blur(1em);
+}
+
+/* rounded - remove */
+.button,
+.card, [role$="card"], .section,
+.chart .value,
+footer,
+header,
+.input-container,
+.progress-bar,
+[role="file-card"],
+.tag,
+.tile {
+    border-radius: 0;
+}
+
+/*********** app specific ************/
+
+.button {
+    --tip-size: 1em;
+
+    background: var(--bg-ghost);
+}
+
+.input-container {
+    padding: 0.5em 0;
+    border-block: 2px solid transparent;
 }
 
 .kanban {
@@ -50,4 +115,8 @@
     & > .icon {
         font-size: 10em;
     }
+}
+
+.tag {
+    --tip-size: 0.5em;
 }
