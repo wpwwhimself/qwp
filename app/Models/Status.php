@@ -36,7 +36,7 @@ class Status extends Model
     #region presentation
     public function __toString(): string
     {
-        return view("components.statuses.tile", ["status" => $this])->render();
+        return $this->name;
     }
 
     public function optionLabel(): Attribute
@@ -149,6 +149,11 @@ class Status extends Model
 
     #region scopes
     use HasStandardScopes;
+
+    public function scopeForConnection($query)
+    {
+        return $query->orderBy("index");
+    }
 
     public function scopeOrdered(Builder $query): void
     {
