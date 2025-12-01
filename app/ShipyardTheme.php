@@ -38,7 +38,7 @@ class ShipyardTheme
     public const FONTS = [
         "base" => ["Raleway", "sans-serif"],
         "heading" => ["Krona One", "sans-serif"],
-        "mono" => ["Ubuntu Mono", "monospace"],
+        "mono" => ["Space Mono", "monospace"],
     ];
 
     // if fonts come from Google Fonts, add the URL here

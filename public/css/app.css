@@ -20,7 +20,7 @@ header,
 }
 
 /* cut-corners */
-.button,
+/* .button,
 .card, [role$="card"], .section,
 .chart .value,
 footer,
@@ -33,7 +33,7 @@ header,
     --tip-size: 2em;
     --path: polygon(0 100%, calc(100% - var(--tip-size)) 100%, 100% calc(100% - var(--tip-size) / 3 * 2), 100% 0, var(--tip-size) 0, 0 calc(var(--tip-size) / 3 * 2)) !important;
     clip-path: var(--path);
-}
+} */
 
 /* milky */
 #toast {
@@ -120,8 +120,4 @@ header,
 
 .tag {
     --tip-size: 0.5em;
-}
-
-#toast {
-    border-inline: none;
 }
