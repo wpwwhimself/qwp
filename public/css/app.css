@@ -61,6 +61,10 @@ header,
     --tip-size: 1em;
 
     background: var(--bg-ghost);
+
+    &.active {
+        border-block: 2px solid;
+    }
 }
 
 .input-container {
