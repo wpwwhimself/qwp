@@ -115,10 +115,12 @@ header,
 }
 
 .project-logo {
-    background-color: var(--accent-color);
-
     & > .icon {
         font-size: 10em;
+    }
+
+    & .backdropped {
+        background-color: var(--accent-color);
     }
 }
 

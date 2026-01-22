@@ -3,7 +3,11 @@
 ])
 
 <a href="{{ $project->page_url }}" target="_blank"
-    class="project-logo rounded"
+    @class([
+        "project-logo",
+        "rounded",
+        "backdropped" => !$project->logo_url,
+    ])
     style="--accent-color: {{ $project->color }};"
 >
     @if ($project->logo_url)
