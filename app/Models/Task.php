@@ -21,6 +21,7 @@ class Task extends Model
         "description" => "Zadania do wykonania w określonym module.",
         "role" => "",
         "ordering" => 14,
+        "defaultSort" => "-date",
     ];
 
     use SoftDeletes, Userstamps;
@@ -152,25 +153,69 @@ class Task extends Model
 
     // use CanBeSorted;
     public const SORTS = [
-        // "<name>" => [
-        //     "label" => "",
-        //     "compare-using" => "function|field",
-        //     "discr" => "<function_name|field_name>",
-        // ],
+        "date" => [
+            "label" => "Data utworzenia",
+            "compare-using" => "field",
+            "discr" => "created_at",
+        ],
+        "priority" => [
+            "label" => "Priorytet",
+            "compare-using" => "field",
+            "discr" => "priority",
+        ],
     ];
 
     public const FILTERS = [
-        // "<name>" => [
-        //     "label" => "",
-        //     "icon" => "",
-        //     "compare-using" => "function|field",
-        //     "discr" => "<function_name|field_name>",
-        //     "mode" => "<one|many>",
-        //     "operator" => "",
-        //     "options" => [
-        //         "<label>" => <value>,
-        //     ],
-        // ],
+        "prio" => [
+            "label" => "Priorytet",
+            // "icon" => "",
+            "compare-using" => "field",
+            "discr" => "priority",
+            "type" => "select",
+            "operator" => "=",
+            "selectData" => [
+                "options" => [
+                    ["value" => 1, "label" => "1 - krytyczny",],
+                    ["value" => 2, "label" => "2 - wysoki",],
+                    ["value" => 3, "label" => "3 - normalny",],
+                    ["value" => 4, "label" => "4 - niski",],
+                    ["value" => 5, "label" => "5 - może kiedyś",],
+                ],
+                "emptyOption" => "Wszystkie",
+            ],
+        ],
+        "status" => [
+            "label" => "Status",
+            "compare-using" => "field",
+            "discr" => "status_id",
+            "type" => "select",
+            "operator" => "=",
+            "selectData" => [
+                "optionsFromScope" => [
+                    Status::class,
+                    "ordered",
+                    "name",
+                    "id",
+                ],
+                "emptyOption" => "Wszystkie",
+            ],
+        ],
+        "scope" => [
+            "label" => "Zakres",
+            "compare-using" => "field",
+            "discr" => "scope_id",
+            "type" => "select",
+            "operator" => "=",
+            "selectData" => [
+                "optionsFromScope" => [
+                    Scope::class,
+                    "forConnection",
+                    "option_label",
+                    "id",
+                ],
+                "emptyOption" => "Wszystkie",
+            ],
+        ],
     ];
 
     #region scopes

@@ -22,6 +22,7 @@ class Run extends Model
         "description" => "Pojedyncze posiedzenia przy pracy.",
         "role" => "technical",
         "ordering" => 15,
+        "defaultSort" => "-date",
     ];
 
     use SoftDeletes, Userstamps;
@@ -141,11 +142,11 @@ class Run extends Model
 
     // use CanBeSorted;
     public const SORTS = [
-        // "<name>" => [
-        //     "label" => "",
-        //     "compare-using" => "function|field",
-        //     "discr" => "<function_name|field_name>",
-        // ],
+        "date" => [
+            "label" => "Czas rozpoczęcia",
+            "compare-using" => "field",
+            "discr" => "started_at",
+        ],
     ];
 
     public const FILTERS = [
@@ -177,19 +178,19 @@ class Run extends Model
 
     use HasStandardAttributes;
 
-    // public function badges(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: fn () => [
-    //             [
-    //                 "label" => "",
-    //                 "icon" => "",
-    //                 "class" => "",
-    //                 "condition" => "",
-    //             ],
-    //         ],
-    //     );
-    // }
+    public function badges(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => [
+                [
+                    "label" => "w toku",
+                    "icon" => "run",
+                    "class" => "accent danger",
+                    "condition" => !$this->is_finished,
+                ],
+            ],
+        );
+    }
 
     public function isFinished(): Attribute
     {
