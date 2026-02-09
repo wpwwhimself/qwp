@@ -122,7 +122,7 @@
             <x-shipyard.ui.button
                 icon="arrow-right"
                 pop="Przejdź"
-                :action="route('scopes.show', ['scope' => $scope])"
+                :action="route('admin.model.list', ['model' => 'tasks', 'fltr[scope]' => $scope->id, 'sort' => 'priority'])"
             />
         </x-slot:actions>
     </x-shipyard.app.model.tile>
