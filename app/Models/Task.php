@@ -270,6 +270,23 @@ class Task extends Model
         );
     }
 
+    //? override edit button on model list
+    public function modelEditButton(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => view("components.shipyard.ui.button", [
+                "icon" => "arrow-right",
+                "label" => "Przejdź",
+                "action" => route('tasks.show', ['task' => $this]),
+            ])->render()
+            . view("components.shipyard.ui.button", [
+                "icon" => "pencil",
+                "label" => "Edytuj",
+                "action" => route('admin.model.edit', ['model' => 'task', 'id' => $this->id]),
+            ])->render(),
+        );
+    }
+
     public function totalHoursSpent(): Attribute
     {
         return Attribute::make(
