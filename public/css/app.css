@@ -75,7 +75,7 @@ header,
 .kanban {
     overflow-x: auto;
     white-space: nowrap;
-    width: calc(100vw - 10em);
+    width: calc(100vw - 20em);
 
     & > div {
         display: inline-flex;

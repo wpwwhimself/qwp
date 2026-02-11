@@ -1,8 +1,29 @@
 @extends("layouts.shipyard.admin")
 @section("title", request()->get('active') ? "Aktywne zadania" : "Zadania")
 
+@section("sidebar")
+
+<div class="card stick-top">
+    @foreach ($clients as $client)
+    @continue ($client->id == request("client"))
+    <x-shipyard.ui.button
+        :icon="model_icon('clients')"
+        :pop="$client->name"
+        :action="route('tasks.list', ['client' => $client->id])"
+    />
+    @endforeach
+</div>
+
+@endsection
+
 @section("content")
 
+@if (empty(request("client")))
+<x-shipyard.app.card>
+    <span class="accent danger">Wybierz klienta z menu obok.</span>
+</x-shipyard.app.card>
+
+@else
 <x-shipyard.app.card
     title="Lista zadań"
     :icon="model_icon('tasks')"

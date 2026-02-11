@@ -226,7 +226,9 @@ class TaskMgmtController extends Controller
     {
         $statuses = Status::ordered()->get()
             ->filter(fn ($s) => $s->id != Status::final()->id);
+        $clients = Client::all();
         $tasks = Task::ordered()
+            ->whereHas("scope.project", fn ($q) => $q->where("client_id", request("client")))
             ->get()
             ->groupBy("status_id");
 
@@ -234,6 +236,7 @@ class TaskMgmtController extends Controller
 
         return view("pages.tasks.list", compact(
             "statuses",
+            "clients",
             "tasks",
             "activeRun",
         ));
