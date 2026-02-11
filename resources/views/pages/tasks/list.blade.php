@@ -62,5 +62,6 @@
         @endforeach
     </div>
 </x-shipyard.app.card>
+@endif
 
 @endsection
