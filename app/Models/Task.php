@@ -316,7 +316,7 @@ class Task extends Model
 
                 switch ($this->rate->mode) {
                     case 0: // jednorazowo
-                        return $runs_by_month->mapWithKeys(fn ($rs, $m) => [$m => $m == $runs_by_month->firstKey() ? $this->rate_value : 0]);
+                        return $runs_by_month->mapWithKeys(fn ($rs, $m) => [$m => $m == $runs_by_month->keys()->first() ? $this->rate_value : 0]);
                     case 1: // miesięcznie
                         return $runs_by_month->mapWithKeys(fn ($rs, $m) => [$m => null]); // podliczenie osobno ze wszystkimi zadaniami
                     case 2: // godzinowo
