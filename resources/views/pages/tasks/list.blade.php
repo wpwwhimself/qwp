@@ -1,6 +1,10 @@
 @extends("layouts.shipyard.admin")
 @section("title", request()->get('active') ? "Aktywne zadania" : "Zadania")
 
+@php
+$currentClient = \App\Models\Client::find(request("client"));
+@endphp
+
 @section("sidebar")
 
 <div class="card stick-top">
@@ -12,6 +16,25 @@
         :action="route('tasks.list', ['client' => $client->id])"
     />
     @endforeach
+
+    @if ($currentClient)
+    <x-shipyard.app.sidebar-separator />
+
+    @foreach ($currentClient->projects as $project)
+    <x-projects.button :project="$project" />
+        @foreach ($project->scopes as $scope)
+        <x-shipyard.ui.button
+            :icon="$scope->icon"
+            :pop="'Dodaj zadanie: '.$scope->name"
+            action="none"
+            onclick="openModal('create-task', {
+                'scope_id': {{ $scope->id }}
+            });"
+            class="tertiary"
+        />
+        @endforeach
+    @endforeach
+    @endif
 </div>
 
 @endsection
