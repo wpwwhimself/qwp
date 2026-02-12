@@ -76,6 +76,22 @@
 
     <span>Łączny czas poświęcony: <strong>{{ $task->total_hours_spent }} h</strong></span>
 
+    @if ($task->has_active_run)
+    <p>Sesja obecnie trwa. Czas poświęcony póki co: <strong id="timer" class="accent primary">???</strong>.</p>
+
+    <script>
+    const timer = document.getElementById("timer");
+
+    setInterval(() => {
+        const diff = new Date().getTime() - new Date("{{ $task->runs->whereNull("finished_at")->first()->started_at }}").getTime();
+        const hours = Math.floor(diff / 1000 / 60 / 60);
+        const minutes = (Math.floor(diff / 1000 / 60) % 60).toString().padStart(2, "0");
+        const seconds = (Math.floor(diff / 1000) % 60).toString().padStart(2, "0");
+        timer.innerHTML = `${hours}:${minutes}:${seconds}`;
+    });
+    </script>
+    @endif
+
     @forelse ($paged_runs as $run)
     <x-runs.tile :run="$run" />
     @empty
