@@ -21,7 +21,7 @@ class Task extends Model
         "description" => "Zadania do wykonania w określonym module.",
         "role" => "",
         "ordering" => 14,
-        "defaultSort" => "-date",
+        "defaultSort" => "-mdate",
     ];
 
     use SoftDeletes, Userstamps;
@@ -157,6 +157,11 @@ class Task extends Model
             "label" => "Data utworzenia",
             "compare-using" => "field",
             "discr" => "created_at",
+        ],
+        "mdate" => [
+            "label" => "Data modyfikacji",
+            "compare-using" => "field",
+            "discr" => "updated_at",
         ],
         "priority" => [
             "label" => "Priorytet",

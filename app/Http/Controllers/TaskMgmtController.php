@@ -290,6 +290,15 @@ class TaskMgmtController extends Controller
 
         return back()->with("toast", ["success", "Zadanie utworzone"]);
     }
+
+    public function taskAppendToDescription(Request $rq)
+    {
+        $task = Task::findOrFail($rq->task_id);
+        $task->update([
+            "description" => $rq->description . "\r\n\r\n--------------\r\n\r\n" . $task->description,
+        ]);
+        return back()->with("toast", ["success", "Opis zaktualizowany"]);
+    }
     #endregion
 
     #region runs
@@ -321,6 +330,17 @@ class TaskMgmtController extends Controller
             "hours_spent" => round(now()->diffInHours($run->started_at, true), 2),
         ]);
         return back()->with("toast", ["success", "Sesja zakończona"]);
+    }
+
+    public function runEdit(Request $rq)
+    {
+        $run = Run::findOrFail($rq->run_id);
+        $run->update([
+            "started_at" => $rq->started_at,
+            "finished_at" => $rq->finished_at,
+            "hours_spent" => $rq->hours_spent,
+        ]);
+        return back()->with("toast", ["success", "Sesja zaktualizowana"]);
     }
     #endregion
 }

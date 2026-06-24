@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Shipyard\HasStandardAttributes;
 use App\Traits\Shipyard\HasStandardFields;
 use App\Traits\Shipyard\HasStandardScopes;
+use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -104,12 +105,14 @@ class Run extends Model
         "started_at" => [
             "type" => "datetime-local",
             "label" => "Czas rozpoczęcia",
-            "icon" => "clock",
+            "icon" => "clock-start",
+            "step" => 1,
         ],
         "finished_at" => [
             "type" => "datetime-local",
             "label" => "Czas zakończenia",
-            "icon" => "clock",
+            "icon" => "clock-end",
+            "step" => 1,
         ],
         "hours_spent" => [
             "type" => "number",
@@ -189,6 +192,14 @@ class Run extends Model
                     "condition" => !$this->is_finished,
                 ],
             ],
+        );
+    }
+
+    public function timeSpent(): Attribute
+    {
+        CarbonInterval::enableFloatSetters(true);
+        return Attribute::make(
+            get: fn () => CarbonInterval::hours($this->hours_spent),
         );
     }
 

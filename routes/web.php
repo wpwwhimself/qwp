@@ -36,10 +36,12 @@ Route::middleware("auth")->group(function () {
             Route::get("{task}/stats", "taskStats")->name("tasks.stats");
             Route::get("{task}/restatus/{new_status_index}", "taskRestatus")->name("tasks.restatus");
             Route::post("create", "taskCreate")->name("tasks.create");
+            Route::post("append-to-description", "taskAppendToDescription")->name("tasks.append-to-description");
         });
 
         Route::prefix("runs")->group(function () {
             Route::get("", "runs")->name("runs.list");
+            Route::post("edit", "runEdit")->name("runs.edit");
             Route::get("{run}", "run")->name("runs.show");
 
             Route::prefix("manage")->group(function () {

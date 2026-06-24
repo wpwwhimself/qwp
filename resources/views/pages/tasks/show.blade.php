@@ -26,6 +26,16 @@
         pop="Zakres"
         :action="route('scopes.show', ['scope' => $task->scope])"
     />
+
+    <x-shipyard.app.sidebar-separator />
+
+    <x-shipyard.ui.button
+        icon="pencil"
+        pop="Edytuj"
+        :action="route('admin.model.edit', ['model' => 'task', 'id' => $task->id])"
+        show-for="technical"
+        target="_blank"
+    />
 </div>
 
 @endSection
@@ -39,11 +49,14 @@
 >
     <x-slot:actions>
         <x-shipyard.app.model.timestamps :model="$task" />
-
         <x-shipyard.ui.button
-            icon="pencil"
-            label="Edytuj"
-            :action="route('admin.model.edit', ['model' => 'task', 'id' => $task->id])"
+            icon="text"
+            label="Dodaj do opisu"
+            action="none"
+            onclick="openModal(`append-to-task-description`, {
+                task_id: {{ $task->id }},
+            })"
+            class="tertiary"
             show-for="technical"
         />
     </x-slot:actions>

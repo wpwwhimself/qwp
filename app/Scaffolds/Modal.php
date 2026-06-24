@@ -58,7 +58,29 @@ class Modal extends ShipyardModal
                         ]
                     ]
                 ]
-            ]
+            ],
+            "append-to-task-description" => [
+                "heading" => "Dodaj do opisu",
+                "target_route" => "tasks.append-to-description",
+                "fields" => [
+                    [
+                        "name" => "description",
+                        "type" => "TEXT",
+                        "label" => "Opis do dodania",
+                        "icon" => "text",
+                        "required" => true,
+                    ],
+                ],
+            ],
+            "edit-run" => [
+                "heading" => "Edytuj sesję",
+                "target_route" => "runs.edit",
+                "fields" => [
+                    model_field_modal_data("runs", "started_at"),
+                    model_field_modal_data("runs", "finished_at"),
+                    model_field_modal_data("runs", "hours_spent"),
+                ],
+            ],
         ];
     }
 }

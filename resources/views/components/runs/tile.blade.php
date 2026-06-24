@@ -14,23 +14,19 @@
             </h3>
             @if ($run->is_finished)
             <span class="ghost">
-                {{ $run->finished_at->diff($run->started_at) }}
+                {{ $run->time_spent }}
             </span>
             @endif
         </div>
     </div>
 
     <div role="middle-part">
-        <div>
-            @foreach ([
-                "started_at",
-                "finished_at",
-            ] as $field_name)
-            <x-shipyard.app.model.field-value :model="$run" :field="$field_name">
-                {{ $run->{$field_name} }}
-            </x-shipyard.app.model.field-value>
-            @endforeach
-        </div>
+        <x-shipyard.app.model.fields-preview :model="$run"
+            :fields="[
+                'started_at',
+                'finished_at',
+            ]"
+        />
     </div>
 
     <div role="bottom-part">
@@ -41,11 +37,19 @@
             :action="route('runs.finish', ['run' => $run])"
             class="danger"
         />
-        @endunless
+        @else
         <x-shipyard.ui.button
-            icon="arrow-right"
-            pop="Przejdź"
-            :action="route('runs.show', ['run' => $run])"
+            icon="pencil"
+            pop="Edytuj"
+            action="none"
+            onclick="openModal(`edit-run`, {
+                run_id: {{ $run->id }},
+                started_at: `{{ $run->started_at }}`,
+                finished_at: `{{ $run->finished_at }}`,
+                hours_spent: {{ $run->hours_spent }},
+            })"
+            class="tertiary"
         />
+        @endunless
     </div>
 </div>
