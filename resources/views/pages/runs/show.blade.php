@@ -4,7 +4,7 @@
 
 @section("content")
 
-<x-shipyard.app.card
+<x-shipyard::app.card
     title="W skrócie"
     :icon="model_icon('runs')"
 >
@@ -14,20 +14,20 @@
                 "started_at",
                 "finished_at",
             ] as $field_name)
-            <x-shipyard.app.model.field-value :model="$run" :field="$field_name">
+            <x-shipyard::app.model.field-value :model="$run" :field="$field_name">
                 {{ $run->{$field_name} }}
-            </x-shipyard.app.model.field-value>
+            </x-shipyard::app.model.field-value>
             @endforeach
         </div>
 
-        <x-shipyard.ui.button
+        <x-shipyard::ui.button
             icon="pencil"
             label="Edytuj"
             :action="route('admin.model.edit', ['model' => 'run', 'id' => $run->id])"
             show-for="technical"
         />
         @unless ($run->is_finished)
-        <x-shipyard.ui.button
+        <x-shipyard::ui.button
             icon="check"
             label="Zakończ sesję"
             :action="route('runs.finish', ['run' => $run])"
@@ -56,15 +56,15 @@
     });
     </script>
     @endunless
-</x-shipyard.app.card>
+</x-shipyard::app.card>
 
 @if (!$run->is_finished && $run->task->description)
-<x-shipyard.app.card
+<x-shipyard::app.card
     title="O zadaniu"
     :icon="model_icon('tasks')"
 >
     {!! \Illuminate\Mail\Markdown::parse($run->task->description) !!}
-</x-shipyard.app.card>
+</x-shipyard::app.card>
 @endif
 
 @endsection

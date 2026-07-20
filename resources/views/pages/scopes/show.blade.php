@@ -6,7 +6,7 @@
 
 <div class="card stick-top">
     @foreach ($sections as $section)
-    <x-shipyard.ui.button
+    <x-shipyard::ui.button
         :icon="$section['icon'] ?? null"
         :pop="$section['label']"
         :action="'#'.$section['id'] ?? null"
@@ -14,9 +14,9 @@
     />
     @endforeach
 
-    <x-shipyard.app.sidebar-separator />
+    <x-shipyard::app.sidebar-separator />
 
-    <x-shipyard.ui.button
+    <x-shipyard::ui.button
         :icon="model_icon('projects')"
         pop="Projekt"
         :action="route('projects.show', ['project' => $scope->project])"
@@ -27,13 +27,13 @@
 
 @section("content")
 
-<x-shipyard.app.card
+<x-shipyard::app.card
     :title="$sections[0]['label']"
     :icon="$sections[0]['icon']"
     :id="$sections[0]['id']"
 >
     <x-slot:actions>
-        <x-shipyard.ui.button
+        <x-shipyard::ui.button
             icon="pencil"
             label="Edytuj"
             :action="route('admin.model.edit', ['model' => 'scope', 'id' => $scope->id])"
@@ -44,9 +44,9 @@
     @if ($scope->description)
     {!! \Illuminate\Mail\Markdown::parse($scope->description) !!}
     @endif
-</x-shipyard.app.card>
+</x-shipyard::app.card>
 
-<x-shipyard.app.card
+<x-shipyard::app.card
     :title="$sections[1]['label']"
     :icon="$sections[1]['icon']"
     :id="$sections[1]['id']"
@@ -59,6 +59,6 @@
     @empty
     <p class="ghost">Brak zadań dla tego zakresu.</p>
     @endforelse
-</x-shipyard.app.card>
+</x-shipyard::app.card>
 
 @endsection

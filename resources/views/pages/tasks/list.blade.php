@@ -10,7 +10,7 @@ $currentClient = \App\Models\Client::find(request("client"));
 <div class="card stick-top">
     @foreach ($clients as $client)
     @continue ($client->id == request("client"))
-    <x-shipyard.ui.button
+    <x-shipyard::ui.button
         :icon="model_icon('clients')"
         :pop="$client->name"
         :action="route('tasks.list', ['client' => $client->id])"
@@ -18,12 +18,12 @@ $currentClient = \App\Models\Client::find(request("client"));
     @endforeach
 
     @if ($currentClient)
-    <x-shipyard.app.sidebar-separator />
+    <x-shipyard::app.sidebar-separator />
 
     @foreach ($currentClient->projects as $project)
     <x-projects.button :project="$project" />
         @foreach ($project->scopes as $scope)
-        <x-shipyard.ui.button
+        <x-shipyard::ui.button
             :icon="$scope->icon"
             :pop="'Dodaj zadanie: '.$scope->name"
             action="none"
@@ -42,17 +42,17 @@ $currentClient = \App\Models\Client::find(request("client"));
 @section("content")
 
 @if (empty(request("client")))
-<x-shipyard.app.card>
+<x-shipyard::app.card>
     <span class="accent danger">Wybierz klienta z menu obok.</span>
-</x-shipyard.app.card>
+</x-shipyard::app.card>
 
 @else
-<x-shipyard.app.card
+<x-shipyard::app.card
     title="Lista zadań"
     :icon="model_icon('tasks')"
 >
     <x-slot:actions>
-        <x-shipyard.ui.button
+        <x-shipyard::ui.button
             icon="plus"
             label="Dodaj"
             :action="route('admin.model.edit', ['model' => 'task'])"
@@ -71,7 +71,7 @@ $currentClient = \App\Models\Client::find(request("client"));
             @forelse ($tasks[$status->id] ?? [] as $task)
             <x-tasks.kanban-tile :task="$task">
                 <x-slot:actions>
-                    <x-shipyard.ui.button
+                    <x-shipyard::ui.button
                         icon="arrow-right"
                         pop="Przejdź"
                         :action="route('tasks.show', ['task' => $task])"
@@ -84,7 +84,7 @@ $currentClient = \App\Models\Client::find(request("client"));
         </div>
         @endforeach
     </div>
-</x-shipyard.app.card>
+</x-shipyard::app.card>
 @endif
 
 @endsection

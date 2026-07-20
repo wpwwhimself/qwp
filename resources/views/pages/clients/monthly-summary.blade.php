@@ -4,12 +4,12 @@
 
 @section("content")
 
-<x-shipyard.app.card
+<x-shipyard::app.card
     title="Podsumowanie"
     icon="cash"
 >
     <x-slot:actions>
-        <x-shipyard.ui.button
+        <x-shipyard::ui.button
             icon="download"
             label="Pobierz zestawienie"
             :action="route('clients.monthly-summary.download', ['client' => $client, 'month' => $month])"
@@ -18,21 +18,21 @@
     </x-slot:actions>
 
     <div class="flex right center">
-        <x-shipyard.app.h lvl="3" icon="timer">
+        <x-shipyard::app.h lvl="3" icon="timer">
             Przepracowano:
             {{ $runs_this_month->sum("hours_spent") }} h
-        </x-shipyard.app.h>
+        </x-shipyard::app.h>
 
-        <x-shipyard.app.h lvl="3" icon="cash">
+        <x-shipyard::app.h lvl="3" icon="cash">
             Wynagrodzenie łączne:
             <span class="accent primary">
                 {{ \App\Models\Rate::asPln(\App\Models\Run::costByMonth($runs_this_month, $month)) }}
             </span>
-        </x-shipyard.app.h>
+        </x-shipyard::app.h>
     </div>
-</x-shipyard.app.card>
+</x-shipyard::app.card>
 
-<x-shipyard.app.card
+<x-shipyard::app.card
     title="Zestawienie prac"
     :icon="model_icon('tasks')"
 >
@@ -48,11 +48,11 @@
     @foreach ($data as $project_id => $scopes)
     @php $project = \App\Models\Project::find($project_id); $project_partial_sum = 0; @endphp
     <div class="card">
-        <x-shipyard.app.h lvl="3" :icon="model_icon('projects')">{{ $project->name }}</x-shipyard.app.h>
+        <x-shipyard::app.h lvl="3" :icon="model_icon('projects')">{{ $project->name }}</x-shipyard::app.h>
 
         @foreach ($scopes as $scope_id => $tasks)
         @php $scope = \App\Models\Scope::find($scope_id); $scope_partial_sum = 0; @endphp
-            <x-shipyard.app.h lvl="4" :icon="$scope->icon">{{ $scope->name }}</x-shipyard.app.h>
+            <x-shipyard::app.h lvl="4" :icon="$scope->icon">{{ $scope->name }}</x-shipyard::app.h>
 
             @foreach ($tasks as $task_id => $runs)
             @php $task = \App\Models\Task::find($task_id); @endphp
@@ -89,6 +89,6 @@
         </div>
     </div>
     @endforeach
-</x-shipyard.app.card>
+</x-shipyard::app.card>
 
 @endsection

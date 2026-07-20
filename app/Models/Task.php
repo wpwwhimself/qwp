@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Traits\Shipyard\HasStandardAttributes;
-use App\Traits\Shipyard\HasStandardFields;
-use App\Traits\Shipyard\HasStandardScopes;
+use Wpwwhimself\Shipyard\Traits\HasStandardAttributes;
+use Wpwwhimself\Shipyard\Traits\HasStandardFields;
+use Wpwwhimself\Shipyard\Traits\HasStandardScopes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -61,7 +61,7 @@ class Task extends Model
     {
         return Attribute::make(
             get: fn () => "<div class='flex right nowrap middle' role='card-title'>"
-            . view("components.shipyard.app.icon", [
+            . view("shipyard::components.app.icon", [
                 "name" => "numeric-$this->priority-circle",
             ])->render()
             . "<strong>$this->name</strong>"
@@ -79,11 +79,11 @@ class Task extends Model
     public function displayMiddlePart(): Attribute
     {
         return Attribute::make(
-            get: fn () => view("components.shipyard.app.model.connections-preview", [
+            get: fn () => view("shipyard::components.app.model.connections-preview", [
                 "connections" => array_filter(self::getConnections(), fn ($n) => $n != "scope", ARRAY_FILTER_USE_KEY),
                 "model" => $this,
             ])->render()
-            . view("components.shipyard.app.icon-label-value", [
+            . view("shipyard::components.app.icon-label-value", [
                 "icon" => "timer",
                 "label" => "Łączny czas poświęcony",
                 "slot" => "$this->total_hours_spent h",
@@ -279,12 +279,12 @@ class Task extends Model
     public function modelEditButton(): Attribute
     {
         return Attribute::make(
-            get: fn () => view("components.shipyard.ui.button", [
+            get: fn () => view("shipyard::components.ui.button", [
                 "icon" => "arrow-right",
                 "label" => "Przejdź",
                 "action" => route('tasks.show', ['task' => $this]),
             ])->render()
-            . view("components.shipyard.ui.button", [
+            . view("shipyard::components.ui.button", [
                 "icon" => "pencil",
                 "label" => "Edytuj",
                 "action" => route('admin.model.edit', ['model' => 'task', 'id' => $this->id]),

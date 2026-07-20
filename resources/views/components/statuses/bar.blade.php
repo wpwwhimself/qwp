@@ -13,14 +13,14 @@ $restatus_functions = ($allowRestatusForTask)
     : [];
 @endphp
 
-<x-shipyard.app.phase-bar
+<x-shipyard::app.phase-bar
     :total="$status->maxIndex()"
     :current="$status->index"
     :color="$status->color"
     :click-functions="$restatus_functions"
 >
     <h3>
-        <x-shipyard.app.icon :name="$status->icon" />
+        <x-shipyard::app.icon :name="$status->icon" />
         {{ $status->name }}
     </h3>
-</x-shipyard.app.phase-bar>
+</x-shipyard::app.phase-bar>

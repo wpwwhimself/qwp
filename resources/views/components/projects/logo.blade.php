@@ -13,6 +13,6 @@
     @if ($project->logo_url)
     <img src="{{ $project->logo_url }}" alt="Logo {{ $project->name }}" class="icon">
     @else
-    <x-shipyard.app.icon :name="model_icon('projects')" />
+    <x-shipyard::app.icon :name="model_icon('projects')" />
     @endif
 </a>

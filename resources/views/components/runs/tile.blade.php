@@ -21,7 +21,7 @@
     </div>
 
     <div role="middle-part">
-        <x-shipyard.app.model.fields-preview :model="$run"
+        <x-shipyard::app.model.fields-preview :model="$run"
             :fields="[
                 'started_at',
                 'finished_at',
@@ -31,14 +31,14 @@
 
     <div role="bottom-part">
         @unless ($run->is_finished)
-        <x-shipyard.ui.button
+        <x-shipyard::ui.button
             icon="check"
             label="Zakończ sesję"
             :action="route('runs.finish', ['run' => $run])"
             class="danger"
         />
         @else
-        <x-shipyard.ui.button
+        <x-shipyard::ui.button
             icon="pencil"
             pop="Edytuj"
             action="none"

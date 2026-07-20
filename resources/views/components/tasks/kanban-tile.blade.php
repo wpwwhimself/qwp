@@ -17,7 +17,7 @@
         <div class="actions">
             @if ($task->has_active_run)
             <span @popper(Sesja trwa) class="accent danger">
-                <x-shipyard.app.icon :name="model_icon('runs')" />
+                <x-shipyard::app.icon :name="model_icon('runs')" />
             </span>
             @endif
 
@@ -31,5 +31,5 @@
         {!! $task->display_middle_part !!}
     </div>
 
-    <x-shipyard.app.model.timestamps :model="$task" />
+    <x-shipyard::app.model.timestamps :model="$task" />
 </div>

@@ -7,5 +7,5 @@
     {{ Popper::pop($status->name) }}
     style="--accent-color: {{ $status->color }};"
 >
-    <x-shipyard.app.icon :name="$status->icon" />
+    <x-shipyard::app.icon :name="$status->icon" />
 </span>
