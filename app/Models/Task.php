@@ -19,7 +19,7 @@ class Task extends Model
         "label" => "Zadania",
         "icon" => "check-circle",
         "description" => "Zadania do wykonania w określonym module.",
-        "role" => "",
+        "role" => "technical",
         "ordering" => 14,
         "defaultSort" => "-mdate",
     ];

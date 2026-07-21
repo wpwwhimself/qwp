@@ -61,7 +61,7 @@
         />
     </x-slot:actions>
 
-    <x-statuses.bar :status="$task->status" :allow-restatus-for-task="$task" />
+    <x-statuses.bar :status="$task->status" :allow-restatus-for-task="Auth::user()->hasRole('technical') ? $task : null" />
     <script>
     function restatusTask(url) {
         window.location.href = url;

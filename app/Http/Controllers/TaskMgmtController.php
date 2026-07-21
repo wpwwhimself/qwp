@@ -37,8 +37,7 @@ class TaskMgmtController extends Controller
         abort(501);
     }
 
-    public function clientStats(Client $client)
-    {
+    private function baseClientStats(Client $client) {
         $sections = [
             ["label" => "Status projektów", "id" => "projects", "icon" => model_icon("projects")],
             ["label" => "Nakład prac", "id" => "runs", "icon" => model_icon("runs")],
@@ -50,6 +49,13 @@ class TaskMgmtController extends Controller
         ));
     }
 
+    public function clientStats(Client $client)
+    {
+        if (Auth::id() != $client->user_id && !Auth::user()?->hasRole("technical")) abort(403);
+
+        return $this->baseClientStats($client);
+    }
+
     public function clientStatsForClient()
     {
         $client = Client::where("user_id", Auth::id())->first();
@@ -57,7 +63,7 @@ class TaskMgmtController extends Controller
             return back()->with("toast", ["error", "Musisz być klientem, żeby zobaczyć statystyki"]);
         }
 
-        return redirect()->route("clients.stats", ["client" => $client]);
+        return $this->baseClientStats($client);
     }
 
     private function getMonthlySummaryData(Client $client, $month)
@@ -151,13 +157,10 @@ class TaskMgmtController extends Controller
     #endregion
 
     #region projects
-    public function projects()
-    {
-        abort(501);
-    }
-
     public function project(Project $project)
     {
+        if ($project->client_id != Auth::user()->client->id && !Auth::user()->hasRole("technical")) abort(403);
+
         $sections = [
             [
                 "label" => "O projekcie",
@@ -184,13 +187,10 @@ class TaskMgmtController extends Controller
     #endregion
 
     #region scopes
-    public function scopes()
-    {
-        abort(501);
-    }
-
     public function scope(Scope $scope)
     {
+        if ($scope->project->client_id != Auth::user()->client->id && !Auth::user()->hasRole("technical")) abort(403);
+
         $sections = [
             [
                 "label" => "W skrócie",
@@ -224,11 +224,15 @@ class TaskMgmtController extends Controller
     #region tasks
     public function tasks()
     {
+        $client_id = Auth::user()->hasRole("technical")
+            ? request("client")
+            : Auth::user()->client->id;
+
         $statuses = Status::ordered()->get()
             ->filter(fn ($s) => $s->id != Status::final()->id);
         $clients = Client::all();
         $tasks = Task::ordered()
-            ->whereHas("scope.project", fn ($q) => $q->where("client_id", request("client")))
+            ->whereHas("scope.project", fn ($q) => $q->where("client_id", $client_id))
             ->get()
             ->groupBy("status_id");
 

@@ -2,11 +2,14 @@
 @section("title", request()->get('active') ? "Aktywne zadania" : "Zadania")
 
 @php
-$currentClient = \App\Models\Client::find(request("client"));
+$currentClient = Auth::user()->hasRole("technical")
+    ? \App\Models\Client::find(request("client"))
+    : Auth::user()->client;
 @endphp
 
 @section("sidebar")
 
+@if (Auth::user()->hasRole("technical"))
 <div class="card stick-top">
     @foreach ($clients as $client)
     @continue ($client->id == request("client"))
@@ -36,12 +39,13 @@ $currentClient = \App\Models\Client::find(request("client"));
     @endforeach
     @endif
 </div>
+@endif
 
 @endsection
 
 @section("content")
 
-@if (empty(request("client")))
+@if (empty($currentClient))
 <x-shipyard::app.card>
     <span class="accent danger">Wybierz klienta z menu obok.</span>
 </x-shipyard::app.card>
@@ -51,14 +55,6 @@ $currentClient = \App\Models\Client::find(request("client"));
     title="Lista zadań"
     :icon="model_icon('tasks')"
 >
-    <x-slot:actions>
-        <x-shipyard::ui.button
-            icon="plus"
-            label="Dodaj"
-            :action="route('admin.model.edit', ['model' => 'task'])"
-        />
-    </x-slot:actions>
-
     <div class="kanban">
         @foreach ($statuses as $status)
         <div class="flex down">

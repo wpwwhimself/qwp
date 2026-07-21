@@ -12,14 +12,6 @@
         class="tertiary"
     />
     @endforeach
-
-    <x-shipyard::app.sidebar-separator />
-
-    <x-shipyard::ui.button
-        :icon="model_icon('clients')"
-        pop="Klient"
-        :action="route('clients.show', ['client' => $client])"
-    />
 </div>
 
 @endsection

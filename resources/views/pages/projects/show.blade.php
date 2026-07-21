@@ -22,14 +22,6 @@
     <x-projects.button :project="$alt_project" />
     @endforeach
     @endif
-
-    <x-shipyard::app.sidebar-separator />
-
-    <x-shipyard::ui.button
-        :icon="model_icon('clients')"
-        pop="Klient"
-        :action="route('clients.show', ['client' => $project->client])"
-    />
 </div>
 
 @endsection

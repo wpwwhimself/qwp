@@ -42,6 +42,7 @@
             icon="pencil"
             pop="Edytuj"
             action="none"
+            show-for="technical"
             onclick="openModal(`edit-run`, {
                 run_id: {{ $run->id }},
                 started_at: `{{ $run->started_at }}`,

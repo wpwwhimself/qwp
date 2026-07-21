@@ -7,4 +7,9 @@ use Wpwwhimself\Shipyard\Models\User as ShipyardUser;
 class User extends ShipyardUser
 {
     public const FROM_SHIPYARD = true;
+
+    public function client()
+    {
+        return $this->hasOne(Client::class);
+    }
 }

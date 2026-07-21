@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TaskMgmtController;
+use App\Http\Middleware\EnsureClientOwnsProject;
 use Wpwwhimself\Shipyard\Middleware\EnsureUserHasRole;
 use Illuminate\Support\Facades\Route;
 
@@ -18,12 +19,10 @@ Route::middleware("auth")->group(function () {
         });
 
         Route::prefix("projects")->group(function () {
-            Route::get("", "projects")->name("projects.list");
             Route::get("{project}", "project")->name("projects.show");
         });
 
         Route::prefix("scopes")->group(function () {
-            Route::get("", "scopes")->name("scopes.list");
             Route::get("{scope}", "scope")->name("scopes.show");
             Route::post("create", "scopeCreate")->name("scopes.create");
         });
