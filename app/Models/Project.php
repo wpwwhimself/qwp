@@ -8,6 +8,7 @@ use Wpwwhimself\Shipyard\Traits\HasStandardScopes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\ComponentAttributeBag;
 use Mattiverse\Userstamps\Traits\Userstamps;
 
@@ -18,7 +19,7 @@ class Project extends Model
     public const META = [
         "label" => "Projekty",
         "icon" => "castle",
-        "description" => "...",
+        "description" => "Lista projektów, jakie zostały stworzone.",
         "role" => "technical|client",
         "ordering" => 12,
     ];
@@ -69,9 +70,16 @@ class Project extends Model
     public function displaySubtitle(): Attribute
     {
         return Attribute::make(
-            get: fn () => view("shipyard::components.app.model.badges", [
-                "badges" => $this->badges,
-            ])->render(),
+            get: fn () => null,
+        );
+    }
+
+    public function displayPreTitle(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => ($this->logo_url)
+                ? "<img class='logo' src='$this->logo_url' alt='$this->name' />"
+                : null,
         );
     }
 
@@ -90,30 +98,38 @@ class Project extends Model
     use HasStandardFields;
 
     public const FIELDS = [
+        "name" => [
+            "role" => "technical",
+        ],
         "description" => [
             "type" => "TEXT",
             "label" => "Opis",
             "icon" => "text",
+            "role" => "technical",
         ],
         "logo_url" => [
             "type" => "url",
             "label" => "Logo",
             "icon" => "image",
+            "role" => "technical",
         ],
         "color" => [
             "type" => "color",
             "label" => "Kolor",
             "icon" => "palette",
+            "role" => "technical",
         ],
         "page_url" => [
             "type" => "url",
             "label" => "Link do aplikacji",
             "icon" => "link",
+            "role" => "technical",
         ],
         "repo_url" => [
             "type" => "url",
             "label" => "Link do repozytorium",
             "icon" => "file-link",
+            "role" => "technical",
         ],
     ];
 
@@ -121,6 +137,7 @@ class Project extends Model
         "client" => [
             "model" => Client::class,
             "mode" => "one",
+            "role" => "technical",
         ],
     ];
 
@@ -135,29 +152,6 @@ class Project extends Model
         // ],
     ];
     #endregion
-
-    // use CanBeSorted;
-    public const SORTS = [
-        // "<name>" => [
-        //     "label" => "",
-        //     "compare-using" => "function|field",
-        //     "discr" => "<function_name|field_name>",
-        // ],
-    ];
-
-    public const FILTERS = [
-        // "<name>" => [
-        //     "label" => "",
-        //     "icon" => "",
-        //     "compare-using" => "function|field",
-        //     "discr" => "<function_name|field_name>",
-        //     "mode" => "<one|many>",
-        //     "operator" => "",
-        //     "options" => [
-        //         "<label>" => <value>,
-        //     ],
-        // ],
-    ];
 
     #region scopes
     use HasStandardScopes;
@@ -191,6 +185,13 @@ class Project extends Model
     //         ],
     //     );
     // }
+
+    public function roleRules(): array
+    {
+        return [
+            "client" => $this->client_id == Auth::user()?->client->id,
+        ];
+    }
     #endregion
 
     #region relations

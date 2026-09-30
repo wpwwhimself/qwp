@@ -8,6 +8,7 @@ use Wpwwhimself\Shipyard\Traits\HasStandardScopes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\ComponentAttributeBag;
 use Mattiverse\Userstamps\Traits\Userstamps;
 
@@ -67,9 +68,7 @@ class Scope extends Model
     public function displaySubtitle(): Attribute
     {
         return Attribute::make(
-            get: fn () => view("shipyard::components.app.model.badges", [
-                "badges" => $this->badges,
-            ])->render(),
+            get: fn () => null,
         );
     }
 
@@ -151,6 +150,13 @@ class Scope extends Model
     //         ],
     //     );
     // }
+
+    public function roleRules(): array
+    {
+        return [
+            "client" => $this->project->client_id == Auth::user()?->client->id,
+        ];
+    }
     #endregion
 
     #region relations
